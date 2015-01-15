@@ -5,16 +5,13 @@
 *   \author Valentin LIEVIN
 *   \date 14 janvier 2015
 *
+*   La classe Point (@opencv) sera utilisé en tant que vecteur
+*
 **/
 
 
-#include<opencv2/highgui/highgui.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include<opencv.hpp>
-
-
-#define w 600 /// défini la résolution de l'affichage
+#include "utilitaires.h"
+#include "affichage.h"
 
 using namespace std;
 using namespace cv;
@@ -22,7 +19,6 @@ using namespace cv;
 void MyLine( Mat img, Point start, Point end );
 void MyEllipse( Mat img, double angle );
 void MyFilledCircle( Mat img, Point center );
-void MyPolygon( Mat img, vector<Point> p ); ///tracer un polygon à partir d'un vecteur de points
 
 int main(){
 
@@ -33,34 +29,38 @@ char atom_window[] = "Drawing 1: Atom";
 
 while(bcontinue){
 
-
+    // on crée une image vide
     Mat atom_image = Mat::zeros( w, w, CV_8UC3 );
 
 
     MyLine( atom_image, Point( 0, 0 ), Point( w, 15*w/16 ) );
+    AfficherPoint(atom_image, Point( w/6,w/2) );
 
-    line(atom_image, Point(0,0),Point(w-1,w-1), CV_RGB(255,0,0),3,8);
+    // tracer une ligne
+    //line(atom_image, Point(0,0),Point(w-1,w-1), CV_RGB(255,0,0),3,8);
+
+    AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 50, false);
+
+    //tracer un polygon
     vector<Point> p;
-    p.push_back(Point(0,0));
-    p.push_back(Point(w,0));
-    p.push_back(Point(w,w));
-    p.push_back(Point(0,w));
-    MyPolygon(atom_image, p);
+    p.push_back(Point(15,15));
+    p.push_back(Point(w-15,15));
+    p.push_back(Point(w-15,w-15));
+    p.push_back(Point(15,w-15));
+    AfficherPolygon(atom_image, p, Scalar(70,70,70));
 
 
-
-    MyEllipse( atom_image, 90 );
-    MyEllipse( atom_image, 0 );
-    MyEllipse( atom_image, 45 );
-    MyEllipse( atom_image, -45 );
-
-    MyFilledCircle( atom_image, Point( w/2, w/2) );
+    Point p1 = Point(1,1);
+    Point p2 = p1;
+    AfficherVecteur(atom_image, p1, Point(w/2,w/2));
+    AfficherVecteur(atom_image, p2, Point(w/2,w/2));
+    cout<<"test dot : "<< p1*p2 <<endl;
 
     imshow( atom_window, atom_image );
     moveWindow( atom_window, 0, 200 );
 
 int key = cvWaitKey(0); // capture des événements claviers
-if(key = 27){ //touche echap
+if(key ==27){ //touche echap
 bcontinue = false;
 }
 }
@@ -71,56 +71,29 @@ return 0;
 
 void MyLine( Mat img, Point start, Point end )
 {
-int thickness = 5;
-int lineType = 8;
-line( img,
-start,
-end,
-Scalar( 0, 0, 0 ),
-thickness,
-lineType );
+    int thickness = 5;
+    int lineType = 8;
+    line( img,
+    start,
+    end,
+    Scalar( 0, 0, 0 ),
+    thickness,
+    lineType );
 }
 
 void MyEllipse( Mat img, double angle )
 {
-int thickness = 2;
-int lineType = 8;
-ellipse( img,
-Point( w/2, w/2 ),
-Size( w/4, w/16 ),
-angle,
-0,
-360,
-Scalar( 255, 0, 0 ),
-thickness,
-lineType );
+    int thickness = 2;
+    int lineType = 8;
+    ellipse( img,
+    Point( w/2, w/2 ),
+    Size( w/4, w/16 ),
+    angle,
+    0,
+    360,
+    Scalar( 255, 0, 0 ),
+    thickness,
+    lineType );
 }
 
-void MyFilledCircle( Mat img, Point center )
-{
-int thickness = -1;
-int lineType = 8;
-circle( img,
-center,
-w/32,
-Scalar( 0, 0, 255 ),
-thickness,
-lineType );
-}
 
-void MyPolygon( Mat img, vector<Point> p )
-{
-  for (int i = 0; i<p.size(); i ++){
-    int l = i+1;
-    if (l == p.size())
-        {l=0;}
-
-    line(img, p[i],p[l], CV_RGB(255,0,255),3,8);
-  }
-
-
-
-
-
-
- }
