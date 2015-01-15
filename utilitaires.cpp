@@ -27,14 +27,79 @@ float operator*(cv::Point const& v1, cv::Point const& v2)
     return dot;
 }
 
-
-/*
-int intersectionVecteurSurDroite(cv::Point v1, cv::Point orv1, cv::Point v2, cv::Point orv2, cv::Point& sol){
+void normalise(cv::Point& p){ ///T \TOTO : surveiller la fonction normaliser : retourne une norme supérieur à 1 dans des cas inexpliqués..
 
 
+        double norme = norm(p); //utilisation de la fonction norm() de OpenCV
+        if (norme!=0)
+        {
+            p.x = (1/norme)*p.x;
+            p.y = (1/norme)*p.y;
+        }
+        else
+        cerr<< "###in normalise : division par zero"<<endl<<endl;
+}
+
+ double distancePoints(cv::Point const& p1, cv::Point const& p2)
+ {
+    return norm(p1-p2);
+ }
+
+ double crossProduct(cv::Point v1, cv::Point v2)
+ {
+    return v1.x*v2.y - v1.y*v2.x;
+ }
 
 
-	if (produitVectoriel(v1, v2) == 0) // on exclut le cas où il n'y a pas de solution : vecteur colinéaires (inclus le vecteur nul)
+std::vector<double> solvePoly2(double a, double b, double c){
+
+	std::vector<double> result;
+	result.clear();
+
+	double delta = b*b - 4 * a*c;
+
+	if (a != 0) // si le polynome est de degré 2
+	{
+
+		if (delta < 0)
+		{
+			return result; // retourne un vecteur nul (pas de solutions)
+		}
+		else if (delta == 0)
+		{
+			double tmp = -b / ( 2 * a);
+			result.push_back(tmp);
+			return result;
+		}
+		else
+		{
+			double tmp = (-b + sqrt(delta)) / (2 * a);
+			result.push_back(tmp);
+			tmp = (- b - sqrt(delta)) / (2 * a);
+			result.push_back(tmp);
+
+			return result;
+		}
+
+	}
+	else // a = 0
+		if (b == 0)
+			return result;
+		else
+		{
+			result.push_back((-c) / b);
+			return result ;
+		}
+}
+
+
+int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol){
+
+
+    if(v1 == Point(0,0) || v2 == Point(0,0))
+    {cout<< " intersectionVecteurSurDroite : vecteur nul "<<endl<<endl;}
+
+	if (crossProduct(v1, v2) == 0) // on exclut le cas où il n'y a pas de solution : vecteur colinéaires (inclus le vecteur nul)
 		return 0;
 	else
 	{
@@ -43,58 +108,58 @@ int intersectionVecteurSurDroite(cv::Point v1, cv::Point orv1, cv::Point v2, cv:
 		|	Ax+t1*v1x = Bx+t2*v2x = xsol
 		|	Ay+t1*v1y = By+t2*v2y = ysol
 		*/
-/*
+
+        ///on normalise v1 et v2
+        normalise(v1);
+        normalise(v2);
 
 		float t1 = 0;
 		float t2 = 0;
 
-		if (v1->getxdir() != 0 && v2->getxdir() != 0 && v1->getydir() != 0 && v2->getydir()) {
 
-			float k = v2->getxdir() / v2->getydir();
+		if (v1.x != 0 && v1.y!=0 && v2.x != 0 && v2.y !=0)
+		{
+			float k = v2.x / v2.y;
 
-			t1 = (1 / (v1->getxdir() - k * v1->getydir())) * (v2->getorigin().x - v1->getorigin().x + k * (v1->getorigin().y - v2->getorigin().y)); //le diviseur est différent de zéro car les droites sont non colinéraires
-			t2 = 1 / (v2->getxdir())*(v1->getorigin().x + t1* v1->getxdir() - v2->getorigin().x);
-
-			//debug
-			//std::cout << "cas 1" << std::endl;
-
+			t1 = 1 / (v1.x - k * v1.y) * (v2.x - v1.x + k * (v1.y - v2.y)); //le diviseur est différent de zéro car les droites sont non colinéraires
+			t2 = (1 / v2.x)*(v1or.x + t1* v1.x - v2or.x);
 		}
 
-		else if (v1->getxdir() == 0) //v2x !0 car ils seraient colinéaires (test OK)
+		else if (v1.x == 0) //v2x !0 car ils seraient colinéaires (test OK)
 		{
-			t2 = 1 / v2->getxdir() * (v1->getorigin().x + t1 * v1->getxdir() - v2->getorigin().x);
-			t1 = 1 / v1->getydir() * (v2->getorigin().y - v1->getorigin().y + t2* v2->getydir());
+			t2 = 1 / v2.x * (v1or.x + t1 * v1.x - v2or.x);
+			t1 = 1 / v1.y * (v2or.y - v1or.y + t2* v2.y);
 			//debug
 			//std::cout << "cas 2" << std::endl;
 			//std::cout << v2->getydir() << std::endl;
 		}
-		else if (v1->getydir() == 0) // par symmétrie (réaliser des tests)
+		else if (v1.y == 0) // par symmétrie (réaliser des tests)
 		{
-			t2 = 1 / v2->getydir() * (v1->getorigin().y + t1* v1->getydir() - v2->getorigin().y);
-			t1 = 1 / v1->getxdir() * (v2->getorigin().x - v1->getorigin().x + t2*v2->getxdir());
+			t2 = 1 / v2.y * (v1or.y + t1* v1.y - v2or.y);
+			t1 = 1 / v1.x * (v2or.x - v1or.x + t2*v2.x);
 			//debug
 			//std::cout << "cas 3" << std::endl;
 
 		}
-		else if (v2->getydir() == 0) // par symmétrie (réaliser des tests)
+		else if (v2.y == 0) // par symmétrie (réaliser des tests)
 		{
-			t1 = 1 / v1->getydir() * (v1->getorigin().y + t2* v2->getxdir() - v2->getorigin().y);
-			t2 = 1 / v2->getxdir() * (v2->getorigin().x - v1->getorigin().x + t1*v2->getxdir());
+			t1 = 1 / v1.y * (v1or.y + t2* v2.x - v2or.y);
+			t2 = 1 / v2.x * (v2or.x - v1or.x + t1*v2.x);
 			//debug
 			//std::cout << "cas 4" << std::endl;
 		}
-		else if (v2->getxdir() == 0) // par symmétrie (réaliser des tests)
+		else if (v2.x == 0) // par symmétrie (réaliser des tests)
 		{
-			t1 = 1 / v1->getxdir() * (v1->getorigin().x + t2* v2->getydir() - v2->getorigin().x);
-			t2 = 1 / v2->getydir() * (v2->getorigin().y - v1->getorigin().y + t1*v2->getydir());
+			t1 = 1 / v1.x * (v1or.x + t2* v2.y - v2or.x);
+			t2 = 1 / v2.y * (v2or.y - v1or.y + t1*v2.y);
 			//debug
 			//std::cout << "cas 5" << std::endl;
 		}
 
 
 	// résultats
-		sol.x = v1->getorigin().x + t1 * v1->getxdir();
-		sol.y = v1->getorigin().y + t1 * v1->getydir();
+		sol.x = v1or.x + t1 * v1.x;
+		sol.y = v1or.y + t1 * v1.y;
 
 	if (t1 >= 0)
 		return 1;
@@ -105,4 +170,4 @@ int intersectionVecteurSurDroite(cv::Point v1, cv::Point orv1, cv::Point v2, cv:
 
 }
 
-*/
+

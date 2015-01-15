@@ -51,18 +51,61 @@ cv::Point operator*(cv::Point const& v1, float const& alpha);
 
 float operator*(cv::Point const& v1, cv::Point const& v2);
 
+/**
+ * \fn void normalise(cv::Point& p)
+ * \brief normaliser un vecteur ( cv::Point)
+ *
+ * \param un vecteur passé en paramètre
+ * \return rien
+ */
+
+void normalise(cv::Point& p);
+
+/**
+ * \fn double distance(cv::Point  p1, cv::Point  p2)
+ * \brief retourne la distance entre deux points
+ *
+ * \param deux points
+ * \return la distance en "double"
+ */
+
+ double distancePoints(cv::Point const& p1, cv::Point const& p2);
+
+ /**
+ * \fn double crossProduct(cv::Point v1, cv::Point v2)
+ * \brief retourne le produit crosé de deux vecteurs
+ *
+ * \param deux vecteurs
+ * \return lle produit croisé en double flottant
+ */
+
+ double crossProduct(cv::Point v1, cv::Point v2);
+
+ /**
+ * \fn std::vector<double> solvePoly2(double a, double b, double c)
+ * \brief calcul les solutions d'une équation polynomiale de second degré
+ *
+ * \param 3 paramètres (doubles flottants)
+ * \return un vecteur de doubles flottants solutions de l'équation
+ */
+
+std::vector<double> solvePoly2(double a, double b, double c);
 
 ///Fonctions "Haut Niveau"
 
 /**
- * \fn int intersectionVecteurSurDroite(cv::Point v1, cv::Point orv1, cv::Point v2, cv::Point orv2, cv::Point& sol)
+ * \fn int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol)
  * \brief fonction détermine l'intersection de deux droites dirrigées par deux vecteurs directeurs : le sens est pris en compte car il s'agit d'une trajectoire
  *
  * \param v1 et v2 représentent des vecteurs, v1 et v2 représentent leur origine, sol est passé en paramètre, il s'agit du point d'intersection
  * \return 1 = intersection dans le sens du vecteur v1, -1 = intersection dans l'autre sens : 0 = pas d'intersection
  */
 
-int intersectionVecteurSurDroite(cv::Point v1, cv::Point orv1, cv::Point v2, cv::Point orv2, cv::Point& sol);
+int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol);
+
+
+
+
 
 
 

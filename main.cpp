@@ -20,50 +20,87 @@ void MyLine( Mat img, Point start, Point end );
 void MyEllipse( Mat img, double angle );
 void MyFilledCircle( Mat img, Point center );
 
+
+
 int main(int argc, char **argv){
 
-bool bcontinue = true;
+    bool bcontinue = true;
 
-char atom_window[] = "Drawing 1: Atom";
-
-
-while(bcontinue){
-
-    // on crée une image vide
-    Mat atom_image = Mat::zeros( w, w, CV_8UC3 );
+    double offset = 0.1;
+    double t = 0;
 
 
-    MyLine( atom_image, Point( 0, 0 ), Point( w, 15*w/16 ) );
-    AfficherPoint(atom_image, Point( w/6,w/2) );
 
-    // tracer une ligne
-    //line(atom_image, Point(0,0),Point(w-1,w-1), CV_RGB(255,0,0),3,8);
+    while(bcontinue){
 
-    AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 50, false);
+        char atom_window[] = "Drawing 1: Atom";
 
-    //tracer un polygon
-    vector<Point> p;
-    p.push_back(Point(15,15));
-    p.push_back(Point(w-15,15));
-    p.push_back(Point(w-15,w-15));
-    p.push_back(Point(15,w-15));
-    AfficherPolygon(atom_image, p, Scalar(70,70,70));
+        // on crée une image vide
+        Mat atom_image = Mat::zeros( w, w, CV_8UC3 );
 
 
-    Point p1 = Point(1,1);
-    Point p2 = p1;
-    AfficherVecteur(atom_image, p1, Point(w/2,w/2));
-    AfficherVecteur(atom_image, p2, Point(w/2,w/2));
-    cout<<"test dot : "<< p1*p2 <<endl;
+        MyLine( atom_image, Point( 0, 0 ), Point( w, 15*w/16 ) );
+        AfficherPoint(atom_image, Point( w/6,w/2) );
 
-    imshow( atom_window, atom_image );
-    moveWindow( atom_window, 0, 200 );
+        // tracer une ligne
+        //line(atom_image, Point(0,0),Point(w-1,w-1), CV_RGB(255,0,0),3,8);
 
-int key = cvWaitKey(0); // capture des événements claviers
-if(key ==27){ //touche echap
-bcontinue = false;
-}
-}
+        AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 7, false);
+
+        //tracer un polygon
+        vector<Point> p;
+        p.push_back(Point(15,15));
+        p.push_back(Point(w-15,15));
+        p.push_back(Point(w-15,w-15));
+        p.push_back(Point(15,w-15));
+        AfficherPolygon(atom_image, p, Scalar(70,70,70));
+
+        double x1 = cos(t);
+        double y1 = sin(t);
+        Point p1 = Point(x1,y1);
+        cout<< "in main : p1 : " << p1.x<< " | " << p1.y<< " t :  "<<t << " cos & sin  : " << x1 << " | " <<y1 <<endl<<endl;
+        normalise(p1);
+        AfficherVecteur(atom_image, p1, Point(w/2,w/2));
+        cout<< "in main : p1 normalized : " << p1.x<< " | " << p1.y<<endl<<endl;
+        Point p2 = Point(-0.2,-1);
+        normalise(p2);
+        Point p3 = p1-p2;
+        Point inter;
+        int sens = intersectionVecteurSurDroite(p1, Point(w/2,w/2), p2 , Point(4*w/5,3*w/5), inter);
+        AfficherPoint(atom_image, inter);
+
+
+
+        AfficherVecteur(atom_image, p2, Point(4*w/5,3*w/5));
+
+        Point_ pe;
+
+
+        int key = cvWaitKey(0); // capture des événements claviers
+
+        //gestion des événements clavier
+        switch(key)
+        {
+                case(27):
+                bcontinue = false;
+                break;
+
+                case(56):
+                t =  t + offset;
+                cout << "in main : interruption clavier : 8 ok" <<endl;
+                break;
+
+                case(50):
+                t = t - offset;
+                break;
+
+        }
+        //écriture et affichage de la nouvelle image
+        imshow( atom_window, atom_image );
+        moveWindow( atom_window, 0, 200 );
+        system("clear");
+
+    }
 
 
 ::testing::InitGoogleTest(&argc, argv);
