@@ -11,6 +11,15 @@
 
 #include "utilitaires.h"
 
+using namespace cv;
+using namespace std;
+
+
+
+cv::Point operator*(cv::Point const& v1, float const& alpha)
+{
+    return Point(v1.x*alpha, v1.y*alpha);
+}
 
 float operator*(cv::Point const& v1, cv::Point const& v2)
 {

@@ -20,7 +20,7 @@ void MyLine( Mat img, Point start, Point end );
 void MyEllipse( Mat img, double angle );
 void MyFilledCircle( Mat img, Point center );
 
-int main(){
+int main(int argc, char **argv){
 
 bool bcontinue = true;
 
@@ -65,7 +65,9 @@ bcontinue = false;
 }
 }
 
-return 0;
+
+::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 
 }
 

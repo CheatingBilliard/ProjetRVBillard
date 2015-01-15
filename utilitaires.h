@@ -12,6 +12,10 @@
 #ifndef UTILITAIRES_H
 #define UTILITAIRES_H
 
+#include "gtest/gtest.h"
+#include <cmath>
+#include <time.h>
+
 #include<opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -25,10 +29,31 @@
 
 ///Fonctions "Bas Niveau"
 
+
+/**
+ * \fn cv::Point operator*(cv::Point const& v1, float const& alpha)
+ * \brief multiplication d'un vecteur par un facteur
+ *
+ * \param v1 : vecteur, alpha : coefficient
+ * \return vecteur (cv::Point)
+ */
+
+cv::Point operator*(cv::Point const& v1, float const& alpha);
+
+
+/**
+ * \fn float operator*(cv::Point const& v1, cv::Point const& v2)
+ * \brief dotProduct
+ *
+ * \param deux vecteurs
+ * \return dotProduct
+ */
+
 float operator*(cv::Point const& v1, cv::Point const& v2);
 
 
 ///Fonctions "Haut Niveau"
+
 /**
  * \fn int intersectionVecteurSurDroite(cv::Point v1, cv::Point orv1, cv::Point v2, cv::Point orv2, cv::Point& sol)
  * \brief fonction détermine l'intersection de deux droites dirrigées par deux vecteurs directeurs : le sens est pris en compte car il s'agit d'une trajectoire
