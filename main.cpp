@@ -33,47 +33,53 @@ int main(int argc, char **argv){
 
     while(bcontinue){
 
-        char atom_window[] = "Drawing 1: Atom";
+    char nomAffichage[] = " Affichage du billard ";
 
         // on crée une image vide
-        Mat atom_image = Mat::zeros( w, w, CV_8UC3 );
+        Mat image = Mat::zeros( w, w, CV_8UC3 );
+
+        Point v = Point ( 5.2 , 1 );
+        cout << " v : "<< v.x << " | " << v.y <<endl<<endl;
+
+        AfficherVecteur(image, v , Point(w/2,w/2));
 
 
-        MyLine( atom_image, Point( 0, 0 ), Point( w, 15*w/16 ) );
-        AfficherPoint(atom_image, Point( w/6,w/2) );
-
-        // tracer une ligne
-        //line(atom_image, Point(0,0),Point(w-1,w-1), CV_RGB(255,0,0),3,8);
-
-        AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 7, false);
-
-        //tracer un polygon
-        vector<Point> p;
-        p.push_back(Point(15,15));
-        p.push_back(Point(w-15,15));
-        p.push_back(Point(w-15,w-15));
-        p.push_back(Point(15,w-15));
-        AfficherPolygon(atom_image, p, Scalar(70,70,70));
-
-        double x1 = cos(t);
-        double y1 = sin(t);
-        Point p1 = Point(x1,y1);
-        cout<< "in main : p1 : " << p1.x<< " | " << p1.y<< " t :  "<<t << " cos & sin  : " << x1 << " | " <<y1 <<endl<<endl;
-        normalise(p1);
-        AfficherVecteur(atom_image, p1, Point(w/2,w/2));
-        cout<< "in main : p1 normalized : " << p1.x<< " | " << p1.y<<endl<<endl;
-        Point p2 = Point(-0.2,-1);
-        normalise(p2);
-        Point p3 = p1-p2;
-        Point inter;
-        int sens = intersectionVecteurSurDroite(p1, Point(w/2,w/2), p2 , Point(4*w/5,3*w/5), inter);
-        AfficherPoint(atom_image, inter);
-
-
-
-        AfficherVecteur(atom_image, p2, Point(4*w/5,3*w/5));
-
-        Point_ pe;
+//
+//
+//        MyLine( atom_image, Point( 0, 0 ), Point( w, 15*w/16 ) );
+//        AfficherPoint(atom_image, Point( w/6,w/2) );
+//
+//        // tracer une ligne
+//        //line(atom_image, Point(0,0),Point(w-1,w-1), CV_RGB(255,0,0),3,8);
+//
+//        AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 7, false);
+//
+//        //tracer un polygon
+//        vector<Point> p;
+//        p.push_back(Point(15,15));
+//        p.push_back(Point(w-15,15));
+//        p.push_back(Point(w-15,w-15));
+//        p.push_back(Point(15,w-15));
+//        AfficherPolygon(atom_image, p, Scalar(70,70,70));
+//
+//        double x1 = cos(t);
+//        double y1 = sin(t);
+//        Point p1 = Point(x1,y1);
+//        cout<< "in main : p1 : " << p1.x<< " | " << p1.y<< " t :  "<<t << " cos & sin  : " << x1 << " | " <<y1 <<endl<<endl;
+//        normalise(p1);
+//        AfficherVecteur(atom_image, p1, Point(w/2,w/2));
+//        cout<< "in main : p1 normalized : " << p1.x<< " | " << p1.y<<endl<<endl;
+//        Point p2 = Point(-0.2,-1);
+//        normalise(p2);
+//        Point p3 = p1-p2;
+//        Point inter;
+//        int sens = intersectionVecteurSurDroite(p1, Point(w/2,w/2), p2 , Point(4*w/5,3*w/5), inter);
+//        AfficherPoint(atom_image, inter);
+//
+//
+//
+//        AfficherVecteur(atom_image, p2, Point(4*w/5,3*w/5));
+//
 
 
         int key = cvWaitKey(0); // capture des événements claviers
@@ -96,8 +102,8 @@ int main(int argc, char **argv){
 
         }
         //écriture et affichage de la nouvelle image
-        imshow( atom_window, atom_image );
-        moveWindow( atom_window, 0, 200 );
+        imshow( nomAffichage, image);
+        moveWindow( nomAffichage, 1000, 200 );
         system("clear");
 
     }
