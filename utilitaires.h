@@ -54,16 +54,23 @@ double angleDirecte(myVec v1, myVec v2 );
 bool appartientSegment(myVec pointCible, myVec A, myVec B);
 
 /**
- * \fn int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol)
+ * \fn bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec v2, myVec v2or, myVec & sol)
  * \brief fonction détermine l'intersection de deux droites dirrigées par deux vecteurs directeurs : le sens est pris en compte car il s'agit d'une trajectoire
  *
  * \param v1 et v2 représentent des vecteurs, v1 et v2 représentent leur origine, sol est passé en paramètre, il s'agit du point d'intersection
- * \return 1 = intersection dans le sens du vecteur v1, -1 = intersection dans l'autre sens : 0 = pas d'intersection
+ * \return vrai : intersection, faux :pas d'intersection
  */
 
-int intersectionVecteurSurDroite(myVec v1, myVec v1or, myVec v2, myVec v2or, myVec & sol);
+bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec v2, myVec v2or, myVec & sol);
 
-
+/**
+ * \fn bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec A, myVec B, myVec & solor, myVec& sol)
+ * \brief fonction détermine l'intersection de deux droites dirrigées par deux vecteurs directeurs et donne le vecteur directeur du rebond: le sens est pris en compte car il s'agit d'une trajectoire
+ *
+ * \param v1 et v2 représentent des vecteurs, v1 et v2 représentent leur origine, sol est passé en paramètre, il s'agit du point d'intersection, solvec est le vecteur rebond
+ * \return vrai : intersection, faux :pas d'intersection
+ */
+bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec A, myVec B, myVec & sol, myVec& solvec);
 
 
 

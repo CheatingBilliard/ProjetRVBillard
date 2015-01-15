@@ -55,24 +55,25 @@ int main(int argc, char **argv){
         v.AfficherVecteur(image, p);
         v*=M_LONG_VECTOR;
         myVec p1 = p+v;
-        //p1.AfficherPoint(image);
-        myVec v1 = myVec( 5,5);
-        v1.Normalise();
-        v1.AfficherVecteur(image, p);
-        cout << " cross product : " << crossProduct(v,v1) <<endl<<endl;
-        cout << " angle : " << angleDirecte(v1,v) <<endl<<endl;
+
 
         //test projete
-        myVec pt1 = myVec(9*w/12, 3*w/4);
-        myVec pt2 = myVec(9*w/13, -3*w/5);
+        myVec pt1 = myVec(9*w/12, 1*w/5);
+        myVec pt2 = myVec(9*w/13, 4*w/5);
         myVec vt;
         vt = pt2 - pt1;
-        vt.AfficherVecteur(image, pt1);
+        //vt.AfficherVecteur(image, pt1);
         myVec inter;
-        int sens =intersectionVecteurSurDroite(v, p , vt , pt1, inter);
+        myVec interVec;
+        bool sens =intersectionVecteurSurSegment(v, p , pt1 , pt2, inter, interVec);
         inter.AfficherPoint(image);
          MyLine( image,  Point(p.Getx(),p.Gety()),   Point(inter.Getx(), inter.Gety()));
         cout << " sens : "<< sens <<endl;
+        pt1.AfficherPoint(image);
+        pt2.AfficherPoint(image);
+        interVec.AfficherVecteur(image, inter);
+        myVec vOrtho = vecteurOrtho(vt);
+        //vOrtho.AfficherVecteur(image, inter);
 
 
 

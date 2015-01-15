@@ -95,8 +95,10 @@ bool appartientSegment(myVec pointCible, myVec A, myVec B){
 
 }
 
-int intersectionVecteurSurDroite(myVec v1, myVec v1or, myVec v2, myVec v2or, myVec & sol)
+bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec A, myVec B, myVec & sol)
 {
+    myVec v2 = ( B - A);
+    myVec v2or = A;
     v1.Normalise();
     v2.Normalise();
 
@@ -104,26 +106,53 @@ int intersectionVecteurSurDroite(myVec v1, myVec v1or, myVec v2, myVec v2or, myV
     myVec projete = v2or +   v2 * ( ( v1or - v2or ) * v2 );//projete testé graphiquement
 
     // on détermine l'angle entre les deux vecteurs
-    double alpha = angleDirecte(v1,v2);
+    double alpha = - angleDirecte(v1,v2);
 
     //calcul de distance entre v1or et le projete
 
     double dist = (projete - v1or).GetNorme();
-    cout<< "in : intersectionVecteurSurDroite : dist : " << dist <<endl;
+
 
     //on place l'intersection
 
     sol = projete + v2* (dist* tan(alpha+ (M_PI/2))); // testé graphiquement
 
-    //test du sens de parcours
-    double sens = v1 * (v1or - projete);
-    if (sens < 0)
-    {return 1;}
-    else if (sens == 0)
-    {return 0;}
-    else{return -1;}
+   //test d'inclusion
+  // if(appartientSegment(sol,A,B))
+    /// \TODO : corriger la fonction appartienSegment : cette fonction n'est pas stable
+   if((sol-A).GetNorme() < (B-A).GetNorme() && (sol-A)*(B-A)>0)
+   {return true;}
+   else
+   {return false;}
 
 }
+
+
+bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec A, myVec B, myVec & sol, myVec& solvec)
+{
+   bool result = intersectionVecteurSurSegment(v1,v1or,A,B,sol);
+
+
+    myVec v2ortho = vecteurOrtho( (B - A)); // on crée le vecteur orthogonal à v2
+    v2ortho.Normalise();
+
+
+
+
+   if(v2ortho * v1 > 0) // on le dirrige vers v1or
+   {v2ortho = v2ortho * (-1) ;}
+
+   myVec v2 = (vecteurOrtho(v2ortho));
+    v2.Normalise();
+
+   double alpha = angleDirecte(v1,v2ortho);
+
+   solvec = myVec(v2ortho*(v2ortho*cos(alpha)) , v2*(v2*sin(alpha))  );
+   solvec.Normalise();
+   return result;
+
+}
+
 
 /*
 int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol){
