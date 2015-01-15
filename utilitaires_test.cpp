@@ -28,26 +28,26 @@ TEST(MultiplicationFacteurVecteur, simpleTest){
 
 TEST(dotProduct, orthogonalite) {
 
-    float ps = Point(0,1)*Point(1,0);
+    float ps = myVec(0,1)*myVec(1,0);
 
     srand(time(NULL));
 
   EXPECT_EQ(0, ps);
-  EXPECT_EQ(0, Point(0,1)*Point(-1,0));
-  EXPECT_EQ(0, Point(sqrt(2)/2,sqrt(2)/2)*Point(- sqrt(2)/2,sqrt(2)/2));
+  EXPECT_EQ(0, myVec(0,1)*myVec(-1,0));
+  EXPECT_EQ(0, myVec(sqrt(2)/2,sqrt(2)/2)*myVec(- sqrt(2)/2,sqrt(2)/2));
 
-  float x = rand();
-  float y = rand();
-  Point p = Point(x,y);
-  EXPECT_EQ(0, p*Point(-p.y,p.x));
+  double x = rand();
+  double y = rand();
+  myVec p = myVec(x,y);
+  EXPECT_EQ(0, p*myVec(-p.Gety() ,p.Getx() ));
 }
 
 TEST(dotProduct, symmetrie)
 {
     srand(time(NULL));
 
-    Point p1 = Point(rand(),rand());
-    Point p2 = Point(rand(),rand());
+    myVec p1 = myVec(rand(),rand());
+    myVec p2 = myVec(rand(),rand());
     EXPECT_EQ(p1*p2, p2*p1);
 }
 
@@ -55,12 +55,13 @@ TEST(dotProduct, definiPositif)
 {
     srand(time(NULL));
 
-    Point p1 = Point(rand(),rand());
-    Point p2 = (rand()%1)*p2;
+    myVec p1 = myVec(rand(),rand());
+    myVec p2;
+    p2 *= (rand()%1);
     EXPECT_TRUE(p1*p2>=0);
-    p2 = -p2;
+    p2 *= -1;
     EXPECT_TRUE(p1*p2<=0);
-    EXPECT_TRUE(p1*Point(0,0) == 0);
+    EXPECT_TRUE(p1*myVec(0,0) == 0);
 }
 
 
@@ -83,8 +84,8 @@ TEST(normalise, egalUn){
 TEST(distancePoints, symetrie){
     srand(time(NULL));
 
-    Point p1 = Point(rand(),rand());
-    Point p2 = Point(rand(),rand());
+    myVec p1 = myVec(rand(),rand());
+    myVec p2 = myVec(rand(),rand());
     double d1 = distancePoints(p1,p2);
     double d2 = distancePoints(p2,p1);
 
@@ -95,8 +96,8 @@ TEST(distancePoints, symetrie){
 TEST(distancePoints, definiPositif){
     srand(time(NULL));
 
-    Point p1 = Point(rand(),rand());
-    Point p2 = Point(rand(),rand());
+    myVec  p1 = myVec(rand(),rand());
+    myVec p2 = myVec(rand(),rand());
     double d1 = distancePoints(p1,p2);
     double d2 = distancePoints(p2,p1);
     double d = distancePoints(p1,p1);
@@ -116,8 +117,8 @@ TEST(crossProduct , zero)
 {
     srand(time(NULL));
 
-    Point p1 = Point(rand(),rand());
-    EXPECT_DOUBLE_EQ(0, crossProduct(p1, 45*p1));
+    myVec p1 = myVec(rand(),rand());
+    EXPECT_DOUBLE_EQ(0, crossProduct(p1, p1*45));
 
 }
 

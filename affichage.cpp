@@ -17,7 +17,7 @@ void AfficherCercle( cv::Mat img, cv::Point center, cv::Scalar color, float rayo
 }
 
 
-void AfficherPoint(cv::Mat img, cv::Point p){
+void AfficherPointcv(cv::Mat img, cv::Point p){
 //utilisation de la fonction affichercercle
 
 AfficherCercle( img, p , CV_RGB(255,80, 0), M_TAILLE_POINT, true);
@@ -38,7 +38,7 @@ void AfficherPolygon( cv::Mat img, std::vector<cv::Point> p, cv::Scalar color)
 
  }
 
- void AfficherVecteur(cv::Mat img, cv::Point direction, cv::Point origine){
+ void AfficherVecteurcv(cv::Mat img, cv::Point direction, cv::Point origine){
 
      Scalar bleu = Scalar(200, 35, 0); // définit la couleur d'un vecteur : bleu
 

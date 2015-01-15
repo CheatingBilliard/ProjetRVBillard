@@ -1,7 +1,7 @@
 /**
 *
 *   \file affichage
-*   \brief header regroupant la déclaration des fonctions d'affichage
+*   \brief header regroupant la déclaration des fonctions d'affichage ainsi que l'inclusion des fichiers nécessaires
 *   \author Valentin LIEVIN
 *   \date 15 janvier 2015
 *
@@ -12,8 +12,21 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-#include "utilitaires.h"
+//#include "utilitaires.h"
+#include "gtest/gtest.h"
+#include <cmath>
+#include <time.h>
 
+#include<opencv2/highgui/highgui.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include<opencv.hpp>
+
+
+#define w 600 /// défini la taille de l'affichage
+#define M_TAILLE_POINT 3 /// définition de la taille d'un point
+#define M_THICKNESS 1 /// définition de l'épaisseur d'une ligne tracée
+#define M_LONG_VECTOR 40 /// définition de la longueur d'affichage d'un vecteur en pixel pour un vecteur normalisé
 
 
 
@@ -29,14 +42,14 @@ void AfficherCercle( cv::Mat img, cv::Point center, cv::Scalar color, float rayo
 
 
 /**
- * \fn void AfficherPoint(cv::Mat img, cv::Point p)
+ * \fn void AfficherPointcv(cv::Mat img, cv::Point p)
  * \brief trace un point en fonction de la constante M_TAILLE_POINT ( voir : utilitaires.h )
  *
  * \param img : image à modifer, p : point à tracer
  * \return rien
 *  trace un point ROUGE
 */
- void AfficherPoint(cv::Mat img, cv::Point p);
+ void AfficherPointcv(cv::Mat img, cv::Point p);
 
 
 /**
@@ -52,7 +65,7 @@ void AfficherPolygon( cv::Mat img, std::vector<cv::Point> p,cv::Scalar color); /
 
 
 /**
- * \fn void AfficherVecteur(cv:Mat img, cv::Point direction, cv::Point origine)
+ * \fn void AfficherVecteurcv(cv:Mat img, cv::Point direction, cv::Point origine)
  * \brief trace un vecteur en à un point d'origine donné
  *
  * \param img : image à modifer, direction : direction du vecteur, origine : origine du vecteur
@@ -61,6 +74,6 @@ void AfficherPolygon( cv::Mat img, std::vector<cv::Point> p,cv::Scalar color); /
 trace un vecteur BLEU
 */
 
-void AfficherVecteur(cv::Mat img, cv::Point direction, cv::Point origine);
+void AfficherVecteurcv(cv::Mat img, cv::Point direction, cv::Point origine);
 
 #endif // AFFICHAGE_H

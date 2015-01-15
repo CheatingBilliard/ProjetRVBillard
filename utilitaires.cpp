@@ -16,15 +16,29 @@ using namespace std;
 
 
 
-cv::Point operator*(cv::Point const& v1, float const& alpha)
+
+
+myVec operator*(myVec const& v1, float const& alpha)
 {
-    return Point(v1.x*alpha, v1.y*alpha);
+    return myVec(v1.Getx()*alpha, v1.Gety()*alpha);
 }
 
-float operator*(cv::Point const& v1, cv::Point const& v2)
+double operator*(myVec const& v1,myVec const& v2)
 {
-    float dot = v1.x*v2.x + v1.y*v2.y; // calcul le produit scalaire de deux vecteur
+    double dot = v1.Getx() *v2.Getx() + v1.Gety()*v2.Gety(); // calcul le produit scalaire de deux vecteur
     return dot;
+}
+
+myVec operator+(myVec const& v1, myVec const& v2)
+{
+    myVec result = myVec( v1.Getx() + v2.Getx() , v1.Gety() + v2.Gety() );
+    return result;
+}
+
+myVec operator-(myVec const& v1, myVec const& v2)
+{
+    myVec result = myVec( v1.Getx() - v2.Getx() , v1.Gety() - v2.Gety() );
+    return result;
 }
 
 void normalise(cv::Point& p){ ///T \TOTO : surveiller la fonction normaliser : retourne une norme supérieur à 1 dans des cas inexpliqués..
@@ -40,14 +54,16 @@ void normalise(cv::Point& p){ ///T \TOTO : surveiller la fonction normaliser : r
         cerr<< "###in normalise : division par zero"<<endl<<endl;
 }
 
- double distancePoints(cv::Point const& p1, cv::Point const& p2)
+ double distancePoints(myVec const& p1, myVec const& p2)
  {
-    return norm(p1-p2);
+    myVec result ;
+    result = p1-p2;
+    return result.GetNorme();
  }
 
- double crossProduct(cv::Point v1, cv::Point v2)
+ double crossProduct(myVec v1, myVec v2)
  {
-    return v1.x*v2.y - v1.y*v2.x;
+    return v1.Getx()*v2.Gety() - v1.Gety()*v2.Getx();
  }
 
 
@@ -92,7 +108,7 @@ std::vector<double> solvePoly2(double a, double b, double c){
 		}
 }
 
-
+/*
 int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol){
 
 
@@ -108,7 +124,7 @@ int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv:
 		|	Ax+t1*v1x = Bx+t2*v2x = xsol
 		|	Ay+t1*v1y = By+t2*v2y = ysol
 		*/
-
+/*
         ///on normalise v1 et v2
         normalise(v1);
         normalise(v2);
@@ -169,5 +185,5 @@ int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv:
 
 
 }
-
+*/
 

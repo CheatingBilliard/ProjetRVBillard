@@ -12,6 +12,7 @@
 
 #include "utilitaires.h"
 #include "affichage.h"
+#include "myVec.h"
 
 using namespace std;
 using namespace cv;
@@ -38,10 +39,24 @@ int main(int argc, char **argv){
         // on crée une image vide
         Mat image = Mat::zeros( w, w, CV_8UC3 );
 
-        Point v = Point ( 5.2 , 1 );
-        cout << " v : "<< v.x << " | " << v.y <<endl<<endl;
+//        Point v = Point ( 5.2 , 1 );
+//        cout << " v : "<< v.x << " | " << v.y <<endl<<endl;
+//
+//        AfficherVecteur(image, v , Point(w/2,w/2));
 
-        AfficherVecteur(image, v , Point(w/2,w/2));
+        myVec p = myVec( w/2,w/2);
+        myVec v = myVec( cos(t),sin(t));
+        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
+        p.AfficherPoint(image);
+        //v.AfficherVecteur(image, p);
+        v.Normalise();
+        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
+        //v*=5;
+        v.AfficherVecteur(image, p);
+        v*=M_LONG_VECTOR;
+        myVec p1 = p+v;
+        p1.AfficherPoint(image);
+
 
 
 //
@@ -54,13 +69,13 @@ int main(int argc, char **argv){
 //
 //        AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 7, false);
 //
-//        //tracer un polygon
-//        vector<Point> p;
-//        p.push_back(Point(15,15));
-//        p.push_back(Point(w-15,15));
-//        p.push_back(Point(w-15,w-15));
-//        p.push_back(Point(15,w-15));
-//        AfficherPolygon(atom_image, p, Scalar(70,70,70));
+        //tracer un polygon
+        vector<Point> pv;
+        pv.push_back(Point(15,15));
+        pv.push_back(Point(w-15,15));
+        pv.push_back(Point(w-15,w-15));
+        pv.push_back(Point(15,w-15));
+        AfficherPolygon(image, pv, Scalar(70,70,70));
 //
 //        double x1 = cos(t);
 //        double y1 = sin(t);
