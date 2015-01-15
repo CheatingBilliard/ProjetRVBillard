@@ -18,53 +18,6 @@ using namespace std;
 
 
 
-myVec operator*(myVec const& v1, float const& alpha)
-{
-    return myVec(v1.Getx()*alpha, v1.Gety()*alpha);
-}
-
-double operator*(myVec const& v1,myVec const& v2)
-{
-    double dot = v1.Getx() *v2.Getx() + v1.Gety()*v2.Gety(); // calcul le produit scalaire de deux vecteur
-    return dot;
-}
-
-myVec operator+(myVec const& v1, myVec const& v2)
-{
-    myVec result = myVec( v1.Getx() + v2.Getx() , v1.Gety() + v2.Gety() );
-    return result;
-}
-
-myVec operator-(myVec const& v1, myVec const& v2)
-{
-    myVec result = myVec( v1.Getx() - v2.Getx() , v1.Gety() - v2.Gety() );
-    return result;
-}
-
-void normalise(cv::Point& p){ ///T \TOTO : surveiller la fonction normaliser : retourne une norme supérieur à 1 dans des cas inexpliqués..
-
-
-        double norme = norm(p); //utilisation de la fonction norm() de OpenCV
-        if (norme!=0)
-        {
-            p.x = (1/norme)*p.x;
-            p.y = (1/norme)*p.y;
-        }
-        else
-        cerr<< "###in normalise : division par zero"<<endl<<endl;
-}
-
- double distancePoints(myVec const& p1, myVec const& p2)
- {
-    myVec result ;
-    result = p1-p2;
-    return result.GetNorme();
- }
-
- double crossProduct(myVec v1, myVec v2)
- {
-    return v1.Getx()*v2.Gety() - v1.Gety()*v2.Getx();
- }
 
 
 std::vector<double> solvePoly2(double a, double b, double c){
@@ -107,6 +60,33 @@ std::vector<double> solvePoly2(double a, double b, double c){
 			return result ;
 		}
 }
+
+///fonctions "haut niveau"
+
+bool appartientSegment(myVec pointCible, myVec A, myVec B){
+
+    myVec v1 ; // vecteur AM
+    v1 = pointCible-A;
+    myVec v2 ;
+    v2 = B-A; //  vecteur AB
+
+    if (crossProduct(v1,v2) ==0 ) // si les vecteur ne sont pas alignés
+    {
+        if (v1.GetNorme()<v2.GetNorme() && v1*v2 > 0) // si AM < AB et si M est dans le bon sens
+        {
+            return true;
+        }
+        else
+        {return false;}
+    }
+    else
+    {
+    return false;
+    }
+
+
+}
+
 
 /*
 int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol){

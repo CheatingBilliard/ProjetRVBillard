@@ -56,6 +56,9 @@ int main(int argc, char **argv){
         v*=M_LONG_VECTOR;
         myVec p1 = p+v;
         p1.AfficherPoint(image);
+        myVec v1 = myVec( 1,5);
+        v1.AfficherVecteur(image, p);v.AfficherVecteur(image, p);
+        cout << " cross product : " << crossProduct(v,v1) <<endl<<endl;
 
 
 

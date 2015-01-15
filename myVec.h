@@ -103,4 +103,82 @@ class myVec
         double y; /*!< coordonnée selon y*/
 };
 
+
+///Fonctions utiles pour myVec
+
+
+
+/**
+ * \fn myVec operator*(myVec const& v1, float const& alpha)
+ * \brief test d'égalité
+ *
+ * \param v1 : vecteur, v2 : vecteur
+ * \return booléen
+ */
+
+bool operator==(myVec const& v1, myVec const& v2);
+
+
+/**
+ * \fn myVec operator*(myVec const& v1, float const& alpha)
+ * \brief multiplication d'un vecteur par un facteur
+ *
+ * \param v1 : vecteur, alpha : coefficient
+ * \return vecteur
+ */
+
+myVec operator*(myVec const& v1, float const& alpha);
+
+
+/**
+ * \fn float operator*(myVec const& v1, myVec const& v2)
+ * \brief dotProduct
+ *
+ * \param deux vecteurs
+ * \return dotProduct
+ */
+
+double operator*(myVec const& v1, myVec const& v2);
+
+/**
+ * \fn myVec operator+(myVec const& v1, myVec const& v2)
+ * \brief addition de vecteurs
+ *
+ * \param deux vecteurs
+ * \return vecteur résultant
+ */
+
+myVec operator+(myVec const& v1, myVec const& v2);
+/**
+ * \fn myVec operator-(myVec const& v1, myVec const& v2)
+ * \brief soustraction de vecteurs
+ *
+ * \param deux vecteurs
+ * \return vecteur résultant
+ */
+
+myVec operator-(myVec const& v1, myVec const& v2);
+
+/**
+ * \fn void normalise(cv::Point& p)
+ * \brief normaliser un vecteur ( cv::Point)
+ *
+ * \param un vecteur passé en paramètre
+ * \return rien
+ */
+
+
+ double distancePoints(myVec const& p1, myVec const& p2);
+
+ /**
+ * \fn double crossProduct(myVec v1, myVec v2)
+ * \brief retourne le produit crosé de deux vecteurs
+ *
+ * \param deux vecteurs
+ * \return lle produit croisé en double flottant
+ */
+
+ double crossProduct(myVec v1, myVec v2);
+
+
 #endif // VEC_H

@@ -19,76 +19,6 @@
 ///Fonctions "Bas Niveau"
 
 
-/**
- * \fn myVec operator*(myVec const& v1, float const& alpha)
- * \brief multiplication d'un vecteur par un facteur
- *
- * \param v1 : vecteur, alpha : coefficient
- * \return vecteur
- */
-
-myVec operator*(myVec const& v1, float const& alpha);
-
-
-/**
- * \fn float operator*(myVec const& v1, myVec const& v2)
- * \brief dotProduct
- *
- * \param deux vecteurs
- * \return dotProduct
- */
-
-double operator*(myVec const& v1, myVec const& v2);
-
-/**
- * \fn myVec operator+(myVec const& v1, myVec const& v2)
- * \brief addition de vecteurs
- *
- * \param deux vecteurs
- * \return vecteur résultant
- */
-
-myVec operator+(myVec const& v1, myVec const& v2);
-/**
- * \fn myVec operator-(myVec const& v1, myVec const& v2)
- * \brief soustraction de vecteurs
- *
- * \param deux vecteurs
- * \return vecteur résultant
- */
-
-myVec operator-(myVec const& v1, myVec const& v2);
-
-/**
- * \fn void normalise(cv::Point& p)
- * \brief normaliser un vecteur ( cv::Point)
- *
- * \param un vecteur passé en paramètre
- * \return rien
- */
-
-void normalise(cv::Point& p);
-
-/**
- * \fn double distance(myVec  p1, myVec  p2)
- * \brief retourne la distance entre deux points
- *
- * \param deux points
- * \return la distance en "double"
- */
-
- double distancePoints(myVec const& p1, myVec const& p2);
-
- /**
- * \fn double crossProduct(myVec v1, myVec v2)
- * \brief retourne le produit crosé de deux vecteurs
- *
- * \param deux vecteurs
- * \return lle produit croisé en double flottant
- */
-
- double crossProduct(myVec v1, myVec v2);
-
  /**
  * \fn std::vector<double> solvePoly2(double a, double b, double c)
  * \brief calcul les solutions d'une équation polynomiale de second degré
@@ -100,6 +30,16 @@ void normalise(cv::Point& p);
 std::vector<double> solvePoly2(double a, double b, double c);
 
 ///Fonctions "Haut Niveau"
+
+/**
+ * \fn appartientSegment(myVec pointCible, myVec A, myVec B)
+ * \brief déterminer si le point appartien au segment
+ *
+ * \param v1 et v2 représentent des vecteurs, v1 et v2 représentent leur origine, sol est passé en paramètre, il s'agit du point d'intersection
+ * \return 1 = intersection dans le sens du vecteur v1, -1 = intersection dans l'autre sens : 0 = pas d'intersection
+ */
+
+bool appartientSegment(myVec pointCible, myVec A, myVec B);
 
 /**
  * \fn int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol)

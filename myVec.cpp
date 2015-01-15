@@ -71,3 +71,49 @@ void myVec::Normalise()
     x*=(1/norme);
     y*=(1/norme);
 }
+
+
+///Fonctions utiles pour myVec
+
+bool operator==(myVec const& v1, myVec const& v2)
+{
+    if(v1.Getx() == v2.Getx() && v1.Gety() == v2.Gety() )
+        return true;
+    else
+        return false;
+}
+
+myVec operator*(myVec const& v1, float const& alpha)
+{
+    return myVec(v1.Getx()*alpha, v1.Gety()*alpha);
+}
+
+double operator*(myVec const& v1,myVec const& v2)
+{
+    double dot = v1.Getx() *v2.Getx() + v1.Gety()*v2.Gety(); // calcul le produit scalaire de deux vecteur
+    return dot;
+}
+
+myVec operator+(myVec const& v1, myVec const& v2)
+{
+    myVec result = myVec( v1.Getx() + v2.Getx() , v1.Gety() + v2.Gety() );
+    return result;
+}
+
+myVec operator-(myVec const& v1, myVec const& v2)
+{
+    myVec result = myVec( v1.Getx() - v2.Getx() , v1.Gety() - v2.Gety() );
+    return result;
+}
+
+ double distancePoints(myVec const& p1, myVec const& p2)
+ {
+    myVec result ;
+    result = p1-p2;
+    return result.GetNorme();
+ }
+
+ double crossProduct(myVec v1, myVec v2)
+ {
+    return v1.Getx()*v2.Gety() - v1.Gety()*v2.Getx();
+ }
