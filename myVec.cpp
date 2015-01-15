@@ -117,3 +117,9 @@ myVec operator-(myVec const& v1, myVec const& v2)
  {
     return v1.Getx()*v2.Gety() - v1.Gety()*v2.Getx();
  }
+
+ myVec vecteurOrtho(myVec v1)
+ {
+    myVec result = myVec(-v1.Gety(), v1.Getx());
+    return result;
+ }

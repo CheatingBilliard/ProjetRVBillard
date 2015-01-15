@@ -29,6 +29,18 @@
 
 std::vector<double> solvePoly2(double a, double b, double c);
 
+
+
+ /**
+ * \fn double angleDirecte(myVec v1, myVec v2 )
+ * \brief retourne l'angle direct entre deux vecteurs
+ *
+ * \param 2 vecteurs
+ * \return un angle double
+ */
+
+double angleDirecte(myVec v1, myVec v2 );
+
 ///Fonctions "Haut Niveau"
 
 /**
@@ -49,7 +61,7 @@ bool appartientSegment(myVec pointCible, myVec A, myVec B);
  * \return 1 = intersection dans le sens du vecteur v1, -1 = intersection dans l'autre sens : 0 = pas d'intersection
  */
 
-int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol);
+int intersectionVecteurSurDroite(myVec v1, myVec v1or, myVec v2, myVec v2or, myVec & sol);
 
 
 

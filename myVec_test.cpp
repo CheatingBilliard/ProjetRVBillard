@@ -118,5 +118,13 @@ TEST(crossProduct , zero)
 
 }
 
+TEST(vecteurOrtho, orthogonal )
+{
+    srand(time(NULL));
+    myVec p1 = myVec(rand()%2000,rand()%2000);
+    myVec p2 = vecteurOrtho(p1);
+    EXPECT_DOUBLE_EQ(0, p1*p2);
+}
+
 
 

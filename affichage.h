@@ -27,7 +27,7 @@
 #define M_TAILLE_POINT 3 /// définition de la taille d'un point
 #define M_THICKNESS 1 /// définition de l'épaisseur d'une ligne tracée
 #define M_LONG_VECTOR 40 /// définition de la longueur d'affichage d'un vecteur en pixel pour un vecteur normalisé
-
+# define M_PIl          3.141592653589793238462643383279502884L /* pi */
 
 
 /**

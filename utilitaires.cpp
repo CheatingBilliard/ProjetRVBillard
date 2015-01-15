@@ -15,11 +15,6 @@ using namespace cv;
 using namespace std;
 
 
-
-
-
-
-
 std::vector<double> solvePoly2(double a, double b, double c){
 
 	std::vector<double> result;
@@ -61,6 +56,19 @@ std::vector<double> solvePoly2(double a, double b, double c){
 		}
 }
 
+double angleDirecte(myVec v1, myVec v2 )
+{
+    v1.Normalise();
+    v2.Normalise();
+
+    double alpha = acos(v1*v2);
+
+    if(crossProduct(v1,v2)<0){ alpha = -alpha; }
+
+    return alpha;
+
+}
+
 ///fonctions "haut niveau"
 
 bool appartientSegment(myVec pointCible, myVec A, myVec B){
@@ -87,6 +95,35 @@ bool appartientSegment(myVec pointCible, myVec A, myVec B){
 
 }
 
+int intersectionVecteurSurDroite(myVec v1, myVec v1or, myVec v2, myVec v2or, myVec & sol)
+{
+    v1.Normalise();
+    v2.Normalise();
+
+    //on détermine le projeté de v1or sur la droite v2
+    myVec projete = v2or +   v2 * ( ( v1or - v2or ) * v2 );//projete testé graphiquement
+
+    // on détermine l'angle entre les deux vecteurs
+    double alpha = angleDirecte(v1,v2);
+
+    //calcul de distance entre v1or et le projete
+
+    double dist = (projete - v1or).GetNorme();
+    cout<< "in : intersectionVecteurSurDroite : dist : " << dist <<endl;
+
+    //on place l'intersection
+
+    sol = projete + v2* (dist* tan(alpha+ (M_PI/2))); // testé graphiquement
+
+    //test du sens de parcours
+    double sens = v1 * (v1or - projete);
+    if (sens < 0)
+    {return 1;}
+    else if (sens == 0)
+    {return 0;}
+    else{return -1;}
+
+}
 
 /*
 int intersectionVecteurSurDroite(cv::Point v1, cv::Point v1or, cv::Point v2, cv::Point v2or, cv::Point& sol){

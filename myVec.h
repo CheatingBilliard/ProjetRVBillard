@@ -180,5 +180,15 @@ myVec operator-(myVec const& v1, myVec const& v2);
 
  double crossProduct(myVec v1, myVec v2);
 
+  /**
+ * \fn myVec vecteurOrtho(myVec v1, myVec v2)
+ * \brief retourne le vecteur orthogonal direct au premier
+ *
+ * \param dun vecteur
+ * \return vecteur orthogonal
+ */
+
+myVec vecteurOrtho(myVec v1);
+
 
 #endif // VEC_H
