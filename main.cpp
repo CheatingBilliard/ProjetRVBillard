@@ -85,25 +85,59 @@ int main(int argc, char **argv){
             }
         }
 
-        boule bt;
-        bt = boule( myVec(w/5, w/3), 50);
-        bt.Afficher(image);
-        myVec inter;
-       bool binter =  b.GetIntersectionBoule(v, bt, inter);
-        if (binter){
-            inter.AfficherPoint(image);
-            boule BouleInter = boule(inter, 30);
-            BouleInter.Afficher(image);
-
-            }
-
-
-        AfficherPolygon(image, pv, Scalar(70,70,70));
         //test projete
         myVec pt1 = myVec(9*w/12, 1*w/5);
         myVec pt2 = myVec(9*w/13, 4*w/5);
         myVec vt;
         vt = pt2 - pt1;
+
+        vector<myVec> pCercles;
+        pCercles.push_back(myVec(w/5,w/3));
+        pCercles.push_back(myVec(4*w/5,5*w/6));
+        pCercles.push_back(myVec(4*w/5,w/3));
+        for (int i = 0; i<pCercles.size(); i ++)
+        {
+            boule bt;
+            bt = boule( pCercles.at(i), 50);
+            bt.Afficher(image);
+            myVec inter;
+            myVec interVec;
+           bool binter =  b.GetIntersectionBoule(v, bt, inter,interVec);
+            if (binter){
+                inter.AfficherPoint(image);
+                boule BouleInter = boule(inter, 30);
+                BouleInter.Afficher(image);
+                interVec.Normalise();
+                interVec.AfficherVecteur(image, inter);
+
+                }
+
+            else
+            {
+                for(int j=0; j<pv.size(); j++)
+                {   int l = j+1;
+                if (l == pv.size())
+                {l = 0;}
+                myVec inter;
+                myVec interVec;
+
+
+                bool bbool = b.GetIntersectionSegment(v, myVec(pv[j].x,pv[j].y) ,myVec(pv[l].x,pv[l].y), inter, interVec);
+                if(bbool)
+                {
+                    inter.AfficherPoint(image);
+                    interVec.AfficherVecteur(image, inter);
+                    boule br = boule(inter,30);
+                    br.Afficher(image);
+                }
+                }
+
+            }
+        }
+
+
+        AfficherPolygon(image, pv, Scalar(70,70,70));
+
         //vt.AfficherVecteur(image, pt1);
 //        myVec inter;
 //        myVec interVec;

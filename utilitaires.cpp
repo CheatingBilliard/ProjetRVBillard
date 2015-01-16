@@ -125,7 +125,6 @@ bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec A, myVec B, myVec
 
    if((d1.GetNorme() < d2.GetNorme()) && ((sol-A)*(B-A)) > 0 && ((sol - v1or)*v1)>0)
    {
-    cout << "in intersectionVecteurSurSegment return true "<<endl;
     return true;
     }
    else

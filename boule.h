@@ -94,6 +94,14 @@ class boule
 
     bool GetIntersectionBoule(myVec v, boule B, myVec &sol );
 
+    /*!
+     *  \brief retourne la position du centre pour une collision avec une boule et son vecteur directeur
+     *  retourne  le centre de la boule (sol ) lors de la collision avec une autre boule  ainsi que le vecteur directeur du rebond/ retourne faux s'il n'y a pas d'intersection, vrai sinon
+     *  \param v : vecteur directeur de la boule, B : boule cible, sol : intersection; solVec : vecteur directeur du rebond
+     */
+
+    bool GetIntersectionBoule(myVec v, boule B, myVec &sol , myVec & solVec);
+
     private:
 
     myVec centre;/*!< centre de la boule*/

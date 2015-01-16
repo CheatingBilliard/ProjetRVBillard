@@ -89,11 +89,11 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol )
             vector<double> vsol = solvePoly2(da,db,dc);
 
             if (vsol.size() == 0)
-                {return false;}
+                {result = false;}
             else if (vsol.size() == 1 )
             {
                 sol = myVec( Q + l * vsol.at(0) , vsol.at(0) );
-                return true;
+                result = true;
             }
             else if (vsol.size() == 2)
             {
@@ -105,7 +105,7 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol )
                 else
                 {sol = sol2;}
 
-                return true;
+                result = true;
             }
             else // if v.Gety() ==0
             {
@@ -116,27 +116,65 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol )
 
                 vector<double> vsol = solvePoly2(da,db,dc);
 
-            if (vsol.size() == 0)
-                {return false;}
-            else if (vsol.size() == 1 )
-            {
-                sol = myVec( vsol.at(0) , centre.Gety() );
-                return true;
-            }
-            else if (vsol.size() == 2)
-            {
-                myVec sol1 = myVec( vsol.at(0) , centre.Gety());
-                myVec sol2 = myVec( vsol.at(1) , centre.Gety());
+                if (vsol.size() == 0)
+                    {return false;}
+                else if (vsol.size() == 1 )
+                {
+                    sol = myVec( vsol.at(0) , centre.Gety() );
+                    result = true;
+                }
+                else if (vsol.size() == 2)
+                {
+                    myVec sol1 = myVec( vsol.at(0) , centre.Gety());
+                    myVec sol2 = myVec( vsol.at(1) , centre.Gety());
 
-                if ( (sol1-centre).GetNorme() < (sol2-centre).GetNorme()  )
-                { sol = sol1;}
-                else
-                {sol = sol2;}
+                    if ( (sol1-centre).GetNorme() < (sol2-centre).GetNorme()  )
+                    { sol = sol1;}
+                    else
+                    {sol = sol2;}
 
-                return true;
+                    result = true;
+                }
             }
         }
-	}
+        // on test la direction d'impact
+        if (result == false)
+        {
+            return false;
+        }
+        else
+        {
+            myVec vSol = ( sol - centre );
+            if ((vSol * v)>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 
+
+bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol , myVec & solVec)
+{
+
+    // voir http://fr.wikipedia.org/wiki/Billard
+
+    bool result = GetIntersectionBoule(v,B,sol);
+    myVec VecCentres = ( B.GetCentre() - sol);
+    myVec VecCentresOrtho = vecteurOrtho(VecCentres);
+
+    //Déterminer e sens du rebond en fonction de l'orientation des deux boules
+    if (crossProduct(v, VecCentres) <0)
+    {
+        solVec = VecCentresOrtho;
+    }
+    else
+    {
+        solVec = VecCentresOrtho * (-1);
+    }
+    return result;
+}
