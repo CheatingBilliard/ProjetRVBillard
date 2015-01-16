@@ -114,6 +114,15 @@ class boule
      */
     bool GetIntersectionCadre(myVec v, cadre c, myVec &sol , myVec & solVec);
 
+    /*!
+     *  \brief retourne la position du centre pour une collision sur un cadre et un ensemble de boules et son vecteur directeur
+
+     */
+
+    bool GetIntersectionCadreBoules(myVec v, cadre c, std::vector<boule> VecBoules ,  myVec &sol , myVec & solVec);
+
+
+
     private:
 
     myVec centre;/*!< centre de la boule*/

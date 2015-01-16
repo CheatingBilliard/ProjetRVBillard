@@ -23,8 +23,8 @@
 #include<opencv.hpp>
 
 
-#define w 600 /// défini la taille de l'affichage
-#define M_ACTIVATION 400 /// féinition de la distance à partir de laquelle une boule est selectionnée
+#define w 900/// défini la taille de l'affichage
+#define M_ACTIVATION 200 /// féinition de la distance à partir de laquelle une boule est selectionnée
 #define M_TAILLE_POINT 3 /// définition de la taille d'un point
 #define M_THICKNESS 1 /// définition de l'épaisseur d'une ligne tracée
 #define M_LONG_VECTOR 40 /// définition de la longueur d'affichage d'un vecteur en pixel pour un vecteur normalisé

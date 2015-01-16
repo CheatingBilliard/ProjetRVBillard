@@ -16,6 +16,8 @@ using namespace std;
 using namespace cv;
 
 
+trajectoire::trajectoire(){}
+
 trajectoire::trajectoire(boule bo, std::vector<myVec> s) : cadre(s) , B(bo)
 {
 
@@ -37,9 +39,10 @@ void trajectoire::Afficher(cv::Mat image){
     }
     else
     {
-
+        boule btmp1 = boule(Sommets[0], M_ACTIVATION);
+        btmp1.Afficher(image, Scalar(150/3,200/3));
         boule btmp = boule(Sommets[0], B.GetRayon());
-        btmp.Afficher(image);
+        btmp.Afficher(image, Scalar(150,200,0));
         if (Sommets.size()>1)
         for ( int i = 1; i< Sommets.size(); i ++)
         {

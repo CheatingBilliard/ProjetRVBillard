@@ -19,6 +19,7 @@ class trajectoire : public cadre
 {
     public :
 
+        trajectoire();
     /*!
          *  \brief constructeur
          *
@@ -41,7 +42,6 @@ class trajectoire : public cadre
     private :
 
     boule B; /// chaque trajectoire est associée à une boule
-
 
 };
 

@@ -79,15 +79,16 @@ int main(int argc, char **argv){
         cadre c = cadre(pv);
 //creation des boules
         vector<myVec> pCercles;
+
+        pCercles.push_back(myVec(5*w/6,5*w/6));
+        pCercles.push_back(myVec(2*w/3,2*w/3));
         pCercles.push_back(myVec(w/5,w/3));
-        pCercles.push_back(myVec(4*w/5,5*w/6));
-        pCercles.push_back(myVec(4*w/5,w/3));
 
         vector<boule> b;
         b.clear();
         for ( int i = 0; i<pCercles.size(); i ++)
         {
-            boule tmp = boule(pCercles.at(i), 40);
+            boule tmp = boule(pCercles.at(i), 30);
             b.push_back(tmp);
         }
 //creation du jeu
@@ -95,6 +96,23 @@ int main(int argc, char **argv){
         j = jeu(c,b);
         j.GetSelected(vSouris,vSourisPos);
         j.Afficher(image);
+
+//création d'une trajectoire
+        trajectoire traj ;
+        j.GetTrajectoire(vSouris, vSourisPos , 4 , traj);
+        traj.Afficher(image);
+
+//        boule btest;
+//        double r = 30;
+//        btest = boule( vSourisPos , r);
+//        btest.Afficher(image);
+//        myVec sol;
+//        myVec solVec;
+//        btest.GetIntersectionCadreBoules(vSouris , c, b, sol, solVec);
+//        solVec.Normalise();
+//        solVec.AfficherVecteur(image, sol);
+//        boule btest2 = boule( sol , r);
+//        btest2.Afficher(image);
 
 
 
@@ -120,7 +138,7 @@ int main(int argc, char **argv){
         namedWindow(nomAffichage);
         setMouseCallback( nomAffichage, onMouse, 0 );
         imshow( nomAffichage, image);
-        moveWindow( nomAffichage, 1000, 200 );
+        moveWindow( nomAffichage, 0, 0 );
         system("clear");
 
           //gestion des événements clavier

@@ -72,3 +72,58 @@ void jeu::Afficher(cv::Mat image)
     }
 
 }
+
+ bool jeu::GetTrajectoire( myVec v, myVec vor ,int nb, trajectoire& traj){
+
+    int selected = GetSelected(v, vor); // on choisie la boule sectionnée
+    if (selected >= 0)
+    {
+        vector<boule> CopieBoules ;
+        boule bCible = b.at(selected); // on copie la boule cible
+
+        for (int j = 0 ; j<b.size(); j++) // reconstruction de la copie sans la boule cible
+        {
+            if(j!= selected)
+            {
+            CopieBoules.push_back(b.at(j));
+            }
+        }
+
+        vector<myVec> result;
+        result.clear();
+        myVec sol;
+        myVec solVec;
+
+        myVec tmpinter = bCible.GetCentre();
+        myVec tmpinterVec = v;
+        bool ok = true;
+        result.push_back( tmpinter);
+        int nbbis = nb/2;
+        for( int k = 0; k<nbbis ; k++)
+        {
+            for(int i = 0; i<CopieBoules.size(); i++)
+            {
+                if (ok = true)
+                {
+                     ok = bCible.GetIntersectionCadreBoules(tmpinterVec, c, CopieBoules, sol, solVec );
+                    result.push_back( sol);
+                    tmpinterVec = solVec;
+                    bCible = boule(sol, bCible.GetRayon());
+                }
+                else
+                {
+                cerr<< " in jeu::GetTrajectoire : bool ok is false "<<endl<<endl<<endl;
+                }
+
+
+
+            }
+        }
+        traj = trajectoire(bCible, result);
+
+    }
+    else
+    {
+    return false;
+    }
+}

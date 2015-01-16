@@ -11,6 +11,7 @@
 
 #include "utilitaires.h"
 #include "boule.h"
+#include "trajectoire.h"
 
 /*! \class jeu
    * \brief classe regroupant l'ensemble des éléments du : cadre + boules
@@ -37,6 +38,13 @@
      *  \param image sur laquelle la fonction écrit
      */
     void Afficher(cv::Mat image);
+
+       /*!
+     *  \brief retourne la trajectoire définie par v et la boule selectionnée (voir GetSelect)
+     *
+     *  \param myVec : Vecteur directeur, myVec vor: origine du vecteur
+     */
+    bool GetTrajectoire( myVec v, myVec vor,int nbRebond ,trajectoire & traj );
 
     private:
     cadre c;

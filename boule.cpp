@@ -72,7 +72,6 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol )
 
 	if ( v.Getx() == 0 && v.Gety() == 0)
 	{
-        return false;
 	}
 	else
 	{
@@ -140,21 +139,24 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol )
         // on test la direction d'impact
         if (result == false)
         {
-            return false;
+
         }
         else
         {
             myVec vSol = ( sol - centre );
             if ((vSol * v)>0)
             {
-                return true;
+                result = true;
+
             }
             else
             {
-                return false;
+                result = false;
+
             }
         }
     }
+    return result;
 }
 
 
@@ -164,6 +166,7 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol , myVec & solVec)
     // voir http://fr.wikipedia.org/wiki/Billard
 
     bool result = GetIntersectionBoule(v,B,sol);
+
     myVec VecCentres = ( B.GetCentre() - sol);
     myVec VecCentresOrtho = vecteurOrtho(VecCentres);
 
@@ -176,6 +179,7 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol , myVec & solVec)
     {
         solVec = VecCentresOrtho * (-1);
     }
+
     return result;
 }
 
@@ -198,3 +202,42 @@ bool boule::GetIntersectionCadre(myVec v, cadre c, myVec &sol , myVec & solVec)
     }
     return result;
 }
+
+bool boule::GetIntersectionCadreBoules(myVec v, cadre c, std::vector<boule> VecBoules ,  myVec &sol , myVec & solVec)
+{
+    bool result = false;
+    double tmp = 100000000000; //nombre très grand
+    bool dir = false;
+
+    if ( VecBoules.size() != 0)
+    {
+
+        for(int i = 0;i<VecBoules.size(); i++ )
+        {
+
+
+                dir = GetIntersectionBoule(v, VecBoules.at(i), sol , solVec);
+                cout << " dir  : " <<dir << endl;
+                if (dir) // sil il ya intersection, on va voir i cette boulle est plus proche de la boule lancée
+                {
+                    double d = (centre - sol ).GetNorme();
+
+                    if ( d<tmp ) // on sélectionne la boule la plus proche
+                    {
+                        result = dir;
+                        tmp = d;
+                    }
+                }
+                cout << " result (Boule)  : "<<result<<endl;
+
+        }
+        if (result == false)
+            {
+                result = GetIntersectionCadre(v, c, sol ,solVec);
+            }
+
+
+    }
+    return result;
+}
+
