@@ -5,7 +5,12 @@
 *   \author Valentin LIEVIN
 *   \date 14 janvier 2015
 *
-*   La classe Point (@opencv) sera utilisé en tant que vecteur
+Ce projet simule la trajectoire d'une boule de billard sur un plateau contenant d'autres boules
+
+*   Mode d'emploi :
+-un clic : changer la position du vecteur directeur (canne)
+-dirriger le vecteur en bougeant la souris
+- clic du milieu pour arrêter de commander la direction du vecteur
 *
 **/
 
@@ -38,8 +43,7 @@ int main(int argc, char **argv){
 
     bool bcontinue = true;
 
-    double offset = 0.1;
-    double t = 0;
+
     afficher = true;
 
     mouseVec.clear();
@@ -51,22 +55,9 @@ int main(int argc, char **argv){
     while(bcontinue){
 
     char nomAffichage[] = " Affichage du billard ";
+
       // on crée une image vide
     image =  Mat::zeros( w, w, CV_8UC3 );
-
-
-
-//
-//        myVec p = myVec( w/2,w/2);
-//        myVec v = myVec( cos(t),sin(t));
-//        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
-//        p.AfficherPoint(image);
-//        //v.AfficherVecteur(image, p);
-//        v.Normalise();
-//        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
-//        //v*=5;
-//        v.AfficherVecteur(image, p);
-
 
 //creration du cadre
         vector<myVec> pv;
@@ -99,25 +90,8 @@ int main(int argc, char **argv){
 
 //création d'une trajectoire
         trajectoire traj ;
-        j.GetTrajectoire(vSouris, vSourisPos , 4 , traj);
+        j.GetTrajectoire(vSouris, vSourisPos , 5 , traj);
         traj.Afficher(image);
-
-//        boule btest;
-//        double r = 30;
-//        btest = boule( vSourisPos , r);
-//        btest.Afficher(image);
-//        myVec sol;
-//        myVec solVec;
-//        btest.GetIntersectionCadreBoules(vSouris , c, b, sol, solVec);
-//        solVec.Normalise();
-//        solVec.AfficherVecteur(image, sol);
-//        boule btest2 = boule( sol , r);
-//        btest2.Afficher(image);
-
-
-
-
-
 
         //Afficher le vecteur souris
         if(mouseVec.size()==2)
@@ -129,7 +103,7 @@ int main(int argc, char **argv){
 
         vSouris.AfficherVecteur(image, vSourisPos);
 
-        int key = cvWaitKey(30); // capture des événements claviers
+
 
 
         //écriture et affichage de la nouvelle image
@@ -141,19 +115,13 @@ int main(int argc, char **argv){
         moveWindow( nomAffichage, 0, 0 );
         system("clear");
 
+        int key = cvWaitKey(20); // capture des événements claviers
+
           //gestion des événements clavier
         switch(key)
         {
                 case(27):
                 bcontinue = false;
-                break;
-
-                case(56):
-                t =  t + offset;
-                break;
-
-                case(50):
-                t = t - offset;
                 break;
 
         }
@@ -166,7 +134,7 @@ int main(int argc, char **argv){
 
 }
 
-
+// gérer la souris
 void onMouse( int event, int x, int y, int, void* )
 {
     if  ( event == EVENT_LBUTTONDOWN )
