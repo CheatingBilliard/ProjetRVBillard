@@ -16,13 +16,22 @@
 #include "boule.h"
 #include "cadre.h"
 #include "trajectoire.h"
+#include "jeu.h"
 
 using namespace std;
 using namespace cv;
 
+cv::Mat image;
+
+
+void onMouse( int event, int x, int y, int, void* );
+
+
+bool afficher; // vrai lorsqu'il y a une click
 
 
 
+vector<myVec> mouseVec; //sert à récupérer les commandes souris
 
 
 int main(int argc, char **argv){
@@ -31,34 +40,35 @@ int main(int argc, char **argv){
 
     double offset = 0.1;
     double t = 0;
+    afficher = true;
 
-
+    mouseVec.clear();
+    mouseVec.push_back(myVec(w/2, w/2) );
+    mouseVec.push_back(myVec(w/4, w/4) );
+    myVec vSouris;
+    myVec vSourisPos;
 
     while(bcontinue){
 
     char nomAffichage[] = " Affichage du billard ";
+      // on crée une image vide
+    image =  Mat::zeros( w, w, CV_8UC3 );
 
-        // on crée une image vide
-        Mat image = Mat::zeros( w, w, CV_8UC3 );
 
-//        Point v = Point ( 5.2 , 1 );
-//        cout << " v : "<< v.x << " | " << v.y <<endl<<endl;
+
 //
-//        AfficherVecteur(image, v , Point(w/2,w/2));
+//        myVec p = myVec( w/2,w/2);
+//        myVec v = myVec( cos(t),sin(t));
+//        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
+//        p.AfficherPoint(image);
+//        //v.AfficherVecteur(image, p);
+//        v.Normalise();
+//        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
+//        //v*=5;
+//        v.AfficherVecteur(image, p);
 
-        myVec p = myVec( w/2,w/2);
-        myVec v = myVec( cos(t),sin(t));
-        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
-        p.AfficherPoint(image);
-        //v.AfficherVecteur(image, p);
-        v.Normalise();
-        cout << " v : "<< v.Getx() << " | " << v.Gety()<< "  norme : "<< v.GetNorme() <<endl<<endl;
-        //v*=5;
-        v.AfficherVecteur(image, p);
-        v*=M_LONG_VECTOR;
-        myVec p1 = p+v;
 
-//tracer un polygon
+//creration du cadre
         vector<myVec> pv;
         int k = 60;
         pv.push_back(myVec(k,k));
@@ -67,150 +77,53 @@ int main(int argc, char **argv){
         pv.push_back(myVec(k,w-k));
 
         cadre c = cadre(pv);
-        c.Afficher(image);
-
-        boule b = boule(myVec(w/2,w/2), 30);
-        b.Afficher(image);
-        myVec interc;
-        myVec interVecc;
-        bool cbool = b.GetIntersectionCadre(v, c, interc, interVecc);
-        if ( cbool )
-        {
-            interc.AfficherPoint(image);
-            interVecc.AfficherVecteur(image, interc);
-            boule btc = boule(interc, 30);
-            btc.Afficher(image);
-        }
-
-
-
-
-        //test projete
-        myVec pt1 = myVec(9*w/12, 1*w/5);
-        myVec pt2 = myVec(9*w/13, 4*w/5);
-        myVec vt;
-        vt = pt2 - pt1;
-
-        // test trajectoire
-        vector<myVec> traj;
-        traj.push_back(pt1);
-        traj.push_back(pt2);
-        traj.push_back(vt);
-        trajectoire t1 = trajectoire(b, traj);
-        t1.Afficher(image);
-
+//creation des boules
         vector<myVec> pCercles;
         pCercles.push_back(myVec(w/5,w/3));
         pCercles.push_back(myVec(4*w/5,5*w/6));
         pCercles.push_back(myVec(4*w/5,w/3));
-//        for (int i = 0; i<pCercles.size(); i ++)
-//        {
-//            boule bt;
-//            bt = boule( pCercles.at(i), 50);
-//            bt.Afficher(image);
-//            myVec inter;
-//            myVec interVec;
-//           bool binter =  b.GetIntersectionBoule(v, bt, inter,interVec);
-//            if (binter){
-//                inter.AfficherPoint(image);
-//                boule BouleInter = boule(inter, 30);
-//                BouleInter.Afficher(image);
-//                interVec.Normalise();
-//                interVec.AfficherVecteur(image, inter);
-//
-//                }
 
-//            else
-//            {
-//                for(int j=0; j<pv.size(); j++)
-//                {   int l = j+1;
-//                if (l == pv.size())
-//                {l = 0;}
-//                myVec inter;
-//                myVec interVec;
-//
-//
-//                bool bbool = b.GetIntersectionSegment(v, pv[j] ,pv[l], inter, interVec);
-//                if(bbool)
-//                {
-//                    inter.AfficherPoint(image);
-//                    interVec.AfficherVecteur(image, inter);
-//                    boule br = boule(inter,30);
-//                    br.Afficher(image);
-//                }
-//                }
-//
-//            }
-//        }
+        vector<boule> b;
+        b.clear();
+        for ( int i = 0; i<pCercles.size(); i ++)
+        {
+            boule tmp = boule(pCercles.at(i), 40);
+            b.push_back(tmp);
+        }
+//creation du jeu
+        jeu j;
+        j = jeu(c,b);
+        j.GetSelected(vSouris,vSourisPos);
+        j.Afficher(image);
 
 
 
 
 
 
-        //vt.AfficherVecteur(image, pt1);
-//        myVec inter;
-//        myVec interVec;
-//        bool sens =intersectionVecteurSurSegment(v, p , pt2 , pt1, inter, interVec);
-//        inter.AfficherPoint(image);
-//         MyLine( image,  Point(p.Getx(),p.Gety()),   Point(inter.Getx(), inter.Gety()));
-//        cout << " sens : "<< sens <<endl;
-//        pt1.AfficherPoint(image);
-//        pt2.AfficherPoint(image);
-//        interVec.AfficherVecteur(image, inter);
-//        myVec vOrtho = vecteurOrtho(vt);
-        //vOrtho.AfficherVecteur(image, inter);
+        //Afficher le vecteur souris
+        if(mouseVec.size()==2)
+        {
+            vSouris = mouseVec.at(1) - mouseVec.at(0);
+            vSourisPos = mouseVec.at(0);
+            vSouris.Normalise();
+        }
 
-        //Affichage d'une boule
-//        boule b = boule(myVec(w/2,w/2), 30);
-//        b.Afficher(image);
-//        int bbool = b.GetIntersectionSegment(v, pt2,pt1, inter, interVec);
-//        cout << " bbol : "<< bbool <<endl;
-//        inter.AfficherPoint(image);
-//        interVec.AfficherVecteur(image, inter);
-//        if(bbool)
-//        {
-//            boule br = boule(inter,30);
-//            br.Afficher(image);
-//        }
+        vSouris.AfficherVecteur(image, vSourisPos);
+
+        int key = cvWaitKey(30); // capture des événements claviers
 
 
-
-//
-//
-//        MyLine( atom_image, Point( 0, 0 ), Point( w, 15*w/16 ) );
-//        AfficherPoint(atom_image, Point( w/6,w/2) );
-//
-//        // tracer une ligne
-//        //line(atom_image, Point(0,0),Point(w-1,w-1), CV_RGB(255,0,0),3,8);
-//
-//        AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 7, false);
-//
-
-//
-//        double x1 = cos(t);
-//        double y1 = sin(t);
-//        Point p1 = Point(x1,y1);
-//        cout<< "in main : p1 : " << p1.x<< " | " << p1.y<< " t :  "<<t << " cos & sin  : " << x1 << " | " <<y1 <<endl<<endl;
-//        normalise(p1);
-//        AfficherVecteur(atom_image, p1, Point(w/2,w/2));
-//        cout<< "in main : p1 normalized : " << p1.x<< " | " << p1.y<<endl<<endl;
-//        Point p2 = Point(-0.2,-1);
-//        normalise(p2);
-//        Point p3 = p1-p2;
-//        Point inter;
-//        int sens = intersectionVecteurSurDroite(p1, Point(w/2,w/2), p2 , Point(4*w/5,3*w/5), inter);
-//        AfficherPoint(atom_image, inter);
-//
-//
-//
-//        AfficherVecteur(atom_image, p2, Point(4*w/5,3*w/5));
-//
+        //écriture et affichage de la nouvelle image
 
 
-        int key = cvWaitKey(0); // capture des événements claviers
+        namedWindow(nomAffichage);
+        setMouseCallback( nomAffichage, onMouse, 0 );
+        imshow( nomAffichage, image);
+        moveWindow( nomAffichage, 1000, 200 );
+        system("clear");
 
-        //gestion des événements clavier
+          //gestion des événements clavier
         switch(key)
         {
                 case(27):
@@ -219,7 +132,6 @@ int main(int argc, char **argv){
 
                 case(56):
                 t =  t + offset;
-                cout << "in main : interruption clavier : 8 ok" <<endl;
                 break;
 
                 case(50):
@@ -227,10 +139,6 @@ int main(int argc, char **argv){
                 break;
 
         }
-        //écriture et affichage de la nouvelle image
-        imshow( nomAffichage, image);
-        moveWindow( nomAffichage, 1000, 200 );
-        system("clear");
 
     }
 
@@ -241,5 +149,30 @@ int main(int argc, char **argv){
 }
 
 
+void onMouse( int event, int x, int y, int, void* )
+{
+    if  ( event == EVENT_LBUTTONDOWN )
+    {
 
+        mouseVec.at(0) = myVec(x,y);
+
+    }
+    else if  ( event == EVENT_RBUTTONDOWN )
+    {
+
+    }
+    else if  ( event == EVENT_MBUTTONDOWN )
+    {
+        if (afficher)
+        afficher = false;
+        else
+        afficher = true;
+    }
+    else if ( event == EVENT_MOUSEMOVE && afficher)
+    {
+
+        mouseVec.at(1) = myVec(x,y);
+    }
+
+}
 

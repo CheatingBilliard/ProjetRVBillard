@@ -41,6 +41,16 @@ std::vector<double> solvePoly2(double a, double b, double c);
 
 double angleDirecte(myVec v1, myVec v2 );
 
+/**
+ * \fn double distancePointSurDroite(myVec v1, myVec v1or, myVec point)
+ * \brief retourne la distance d'un point par rapport à une droite
+ * négatif si le point est derrière l'origine du vecteur
+ * \param myVec v1, myVec v1or, myVec point
+ * \return double ( distance )
+ */
+
+double distancePointSurDroite(myVec v1, myVec v1or, myVec point);
+
 ///Fonctions "Haut Niveau"
 
 /**

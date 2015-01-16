@@ -69,6 +69,21 @@ double angleDirecte(myVec v1, myVec v2 )
 
 }
 
+double distancePointSurDroite(myVec v1, myVec v1or, myVec point)
+{
+    v1.Normalise();
+    myVec Projete = v1or +   v1 * ( ( point - v1or ) * v1 );
+
+
+    double dist = (Projete - point).GetNorme();
+
+    if ((point - v1or)*v1 < 0) //valeur négative si mauvais sens
+    {
+    dist = - dist;;
+    }
+    return dist;
+}
+
 ///fonctions "haut niveau"
 
 bool appartientSegment(myVec pointCible, myVec A, myVec B){
