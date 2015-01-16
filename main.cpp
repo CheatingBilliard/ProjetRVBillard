@@ -71,6 +71,16 @@ int main(int argc, char **argv){
 
         boule b = boule(myVec(w/2,w/2), 30);
         b.Afficher(image);
+        myVec interc;
+        myVec interVecc;
+        bool cbool = b.GetIntersectionCadre(v, c, interc, interVecc);
+        if ( cbool )
+        {
+            interc.AfficherPoint(image);
+            interVecc.AfficherVecteur(image, interc);
+            boule btc = boule(interc, 30);
+            btc.Afficher(image);
+        }
 
 
         //test projete
@@ -83,45 +93,47 @@ int main(int argc, char **argv){
         pCercles.push_back(myVec(w/5,w/3));
         pCercles.push_back(myVec(4*w/5,5*w/6));
         pCercles.push_back(myVec(4*w/5,w/3));
-        for (int i = 0; i<pCercles.size(); i ++)
-        {
-            boule bt;
-            bt = boule( pCercles.at(i), 50);
-            bt.Afficher(image);
-            myVec inter;
-            myVec interVec;
-           bool binter =  b.GetIntersectionBoule(v, bt, inter,interVec);
-            if (binter){
-                inter.AfficherPoint(image);
-                boule BouleInter = boule(inter, 30);
-                BouleInter.Afficher(image);
-                interVec.Normalise();
-                interVec.AfficherVecteur(image, inter);
+//        for (int i = 0; i<pCercles.size(); i ++)
+//        {
+//            boule bt;
+//            bt = boule( pCercles.at(i), 50);
+//            bt.Afficher(image);
+//            myVec inter;
+//            myVec interVec;
+//           bool binter =  b.GetIntersectionBoule(v, bt, inter,interVec);
+//            if (binter){
+//                inter.AfficherPoint(image);
+//                boule BouleInter = boule(inter, 30);
+//                BouleInter.Afficher(image);
+//                interVec.Normalise();
+//                interVec.AfficherVecteur(image, inter);
+//
+//                }
 
-                }
+//            else
+//            {
+//                for(int j=0; j<pv.size(); j++)
+//                {   int l = j+1;
+//                if (l == pv.size())
+//                {l = 0;}
+//                myVec inter;
+//                myVec interVec;
+//
+//
+//                bool bbool = b.GetIntersectionSegment(v, pv[j] ,pv[l], inter, interVec);
+//                if(bbool)
+//                {
+//                    inter.AfficherPoint(image);
+//                    interVec.AfficherVecteur(image, inter);
+//                    boule br = boule(inter,30);
+//                    br.Afficher(image);
+//                }
+//                }
+//
+//            }
+//        }
 
-            else
-            {
-                for(int j=0; j<pv.size(); j++)
-                {   int l = j+1;
-                if (l == pv.size())
-                {l = 0;}
-                myVec inter;
-                myVec interVec;
 
-
-                bool bbool = b.GetIntersectionSegment(v, pv[j] ,pv[l], inter, interVec);
-                if(bbool)
-                {
-                    inter.AfficherPoint(image);
-                    interVec.AfficherVecteur(image, inter);
-                    boule br = boule(inter,30);
-                    br.Afficher(image);
-                }
-                }
-
-            }
-        }
 
 
 

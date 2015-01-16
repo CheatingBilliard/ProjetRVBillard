@@ -178,3 +178,23 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol , myVec & solVec)
     }
     return result;
 }
+
+bool boule::GetIntersectionCadre(myVec v, cadre c, myVec &sol , myVec & solVec)
+{   bool result = false;
+
+    for(int i = 0; i< c.GetSommets().size() ; i++)
+    {
+
+        if (result == false) //permet de régler les conflits (2 intersections) en faisant un choix arbitraire
+        {
+            int l = i+1;
+            if ( l == c.GetSommets().size())
+            {
+                l = 0;
+            }
+            result = GetIntersectionSegment(v, c.GetSommets(i), c.GetSommets(l), sol, solVec);
+        }
+
+    }
+    return result;
+}
