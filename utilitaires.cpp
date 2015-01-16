@@ -120,8 +120,14 @@ bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec A, myVec B, myVec
    //test d'inclusion
   // if(appartientSegment(sol,A,B))
     /// \TODO : corriger la fonction appartienSegment : cette fonction n'est pas stable
-   if((sol-A).GetNorme() < (B-A).GetNorme() && (sol-A)*(B-A)>0)
-   {return true;}
+    myVec d1 = (sol-A);
+    myVec d2 = (B-A);
+
+   if((d1.GetNorme() < d2.GetNorme()) && ((sol-A)*(B-A)) > 0 && ((sol - v1or)*v1)>0)
+   {
+    cout << "in intersectionVecteurSurSegment return true "<<endl;
+    return true;
+    }
    else
    {return false;}
 
@@ -142,12 +148,13 @@ bool intersectionVecteurSurSegment(myVec v1, myVec v1or, myVec A, myVec B, myVec
    if(v2ortho * v1 > 0) // on le dirrige vers v1or
    {v2ortho = v2ortho * (-1) ;}
 
-   myVec v2 = (vecteurOrtho(v2ortho));
-    v2.Normalise();
 
-   double alpha = angleDirecte(v1,v2ortho);
+  myVec v2 = (vecteurOrtho(v2ortho));
+  v2.Normalise();
 
-   solvec = myVec(v2ortho*(v2ortho*cos(alpha)) , v2*(v2*sin(alpha))  );
+   //double alpha = angleDirecte(v1,v2ortho);
+
+  solvec = ( (  ( v2ortho*(v2ortho*v1))*(-1) )+ (v2*(v2*v1)  ) );
    solvec.Normalise();
    return result;
 

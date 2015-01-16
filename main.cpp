@@ -13,6 +13,7 @@
 #include "utilitaires.h"
 #include "affichage.h"
 #include "myVec.h"
+#include "boule.h"
 
 using namespace std;
 using namespace cv;
@@ -56,25 +57,66 @@ int main(int argc, char **argv){
         v*=M_LONG_VECTOR;
         myVec p1 = p+v;
 
+//tracer un polygon
+        vector<Point> pv;
+        int k = 60;
+        pv.push_back(Point(k,k));
+        pv.push_back(Point(w-k,k));
+        pv.push_back(Point(w-k,w-k));
+        pv.push_back(Point(k,w-k));
 
+        for(int j=0; j<pv.size(); j++)
+        {   int l = j+1;
+            if (l == pv.size())
+            {l = 0;}
+            myVec inter;
+            myVec interVec;
+
+            boule b = boule(myVec(w/2,w/2), 30);
+            b.Afficher(image);
+            bool bbool = b.GetIntersectionSegment(v, myVec(pv[j].x,pv[j].y) ,myVec(pv[l].x,pv[l].y), inter, interVec);
+            cout << " bbol : "<< bbool <<endl;
+
+            if(bbool)
+            {
+                inter.AfficherPoint(image);
+                interVec.AfficherVecteur(image, inter);
+                boule br = boule(inter,30);
+                br.Afficher(image);
+            }
+        }
+
+        AfficherPolygon(image, pv, Scalar(70,70,70));
         //test projete
         myVec pt1 = myVec(9*w/12, 1*w/5);
         myVec pt2 = myVec(9*w/13, 4*w/5);
         myVec vt;
         vt = pt2 - pt1;
         //vt.AfficherVecteur(image, pt1);
-        myVec inter;
-        myVec interVec;
-        bool sens =intersectionVecteurSurSegment(v, p , pt1 , pt2, inter, interVec);
-        inter.AfficherPoint(image);
-         MyLine( image,  Point(p.Getx(),p.Gety()),   Point(inter.Getx(), inter.Gety()));
-        cout << " sens : "<< sens <<endl;
-        pt1.AfficherPoint(image);
-        pt2.AfficherPoint(image);
-        interVec.AfficherVecteur(image, inter);
-        myVec vOrtho = vecteurOrtho(vt);
+//        myVec inter;
+//        myVec interVec;
+//        bool sens =intersectionVecteurSurSegment(v, p , pt2 , pt1, inter, interVec);
+//        inter.AfficherPoint(image);
+//         MyLine( image,  Point(p.Getx(),p.Gety()),   Point(inter.Getx(), inter.Gety()));
+//        cout << " sens : "<< sens <<endl;
+//        pt1.AfficherPoint(image);
+//        pt2.AfficherPoint(image);
+//        interVec.AfficherVecteur(image, inter);
+//        myVec vOrtho = vecteurOrtho(vt);
         //vOrtho.AfficherVecteur(image, inter);
 
+        //Affichage d'une boule
+//        boule b = boule(myVec(w/2,w/2), 30);
+//        b.Afficher(image);
+//        int bbool = b.GetIntersectionSegment(v, pt2,pt1, inter, interVec);
+//        cout << " bbol : "<< bbool <<endl;
+//        inter.AfficherPoint(image);
+//        interVec.AfficherVecteur(image, inter);
+//        if(bbool)
+//        {
+//            boule br = boule(inter,30);
+//            br.Afficher(image);
+//        }
 
 
 
@@ -88,13 +130,7 @@ int main(int argc, char **argv){
 //
 //        AfficherCercle(atom_image, Point(w/2,w/2), CV_RGB(255,0,0), 7, false);
 //
-        //tracer un polygon
-        vector<Point> pv;
-        pv.push_back(Point(15,15));
-        pv.push_back(Point(w-15,15));
-        pv.push_back(Point(w-15,w-15));
-        pv.push_back(Point(15,w-15));
-        AfficherPolygon(image, pv, Scalar(70,70,70));
+
 //
 //        double x1 = cos(t);
 //        double y1 = sin(t);

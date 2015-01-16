@@ -1,6 +1,6 @@
 /**
 *
-*   \file affichage
+*   \file affichage.h
 *   \brief header regroupant la déclaration des fonctions d'affichage ainsi que l'inclusion des fichiers nécessaires
 *   \author Valentin LIEVIN
 *   \date 15 janvier 2015
