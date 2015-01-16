@@ -64,6 +64,8 @@ int main(int argc, char **argv){
         pv.push_back(Point(w-k,k));
         pv.push_back(Point(w-k,w-k));
         pv.push_back(Point(k,w-k));
+        boule b = boule(myVec(w/2,w/2), 30);
+        b.Afficher(image);
 
         for(int j=0; j<pv.size(); j++)
         {   int l = j+1;
@@ -72,11 +74,8 @@ int main(int argc, char **argv){
             myVec inter;
             myVec interVec;
 
-            boule b = boule(myVec(w/2,w/2), 30);
-            b.Afficher(image);
-            bool bbool = b.GetIntersectionSegment(v, myVec(pv[j].x,pv[j].y) ,myVec(pv[l].x,pv[l].y), inter, interVec);
-            cout << " bbol : "<< bbool <<endl;
 
+            bool bbool = b.GetIntersectionSegment(v, myVec(pv[j].x,pv[j].y) ,myVec(pv[l].x,pv[l].y), inter, interVec);
             if(bbool)
             {
                 inter.AfficherPoint(image);
@@ -85,6 +84,19 @@ int main(int argc, char **argv){
                 br.Afficher(image);
             }
         }
+
+        boule bt;
+        bt = boule( myVec(w/5, w/3), 50);
+        bt.Afficher(image);
+        myVec inter;
+       bool binter =  b.GetIntersectionBoule(v, bt, inter);
+        if (binter){
+            inter.AfficherPoint(image);
+            boule BouleInter = boule(inter, 30);
+            BouleInter.Afficher(image);
+
+            }
+
 
         AfficherPolygon(image, pv, Scalar(70,70,70));
         //test projete
