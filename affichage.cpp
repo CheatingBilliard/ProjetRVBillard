@@ -3,6 +3,19 @@
 using namespace std;
 using namespace cv;
 
+
+void MyLine( Mat img, Point start, Point end, Scalar color )
+{
+    int lineType = 8;
+    line( img,
+    start,
+    end,
+    color,
+    M_THICKNESS ,
+    lineType );
+}
+
+
 void AfficherCercle( cv::Mat img, cv::Point center, cv::Scalar color, float rayon, bool plein )
 {
     int thickness;

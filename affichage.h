@@ -31,6 +31,15 @@
 
 
 /**
+ * \fn void MyLine( Mat img, Point start, Point end, Scalar color )
+ * \brief trace une ligne de couleur donnée
+ *
+ * \param img : image modifiée, start : point de départ, end point d'arrivée, color : couleur
+ * \return rien
+ */
+void MyLine( cv::Mat img, cv::Point start, cv::Point end , cv::Scalar color);
+
+/**
  * \fn void AfficherCercle( cv::Mat img, cv::Point center, cv::Scalar color, float rayon, bool plein )
  * \brief trace un cercle (plein si plein = true)
  *

@@ -15,13 +15,13 @@
 #include "myVec.h"
 #include "boule.h"
 #include "cadre.h"
+#include "trajectoire.h"
 
 using namespace std;
 using namespace cv;
 
-void MyLine( Mat img, Point start, Point end );
-void MyEllipse( Mat img, double angle );
-void MyFilledCircle( Mat img, Point center );
+
+
 
 
 
@@ -83,11 +83,21 @@ int main(int argc, char **argv){
         }
 
 
+
+
         //test projete
         myVec pt1 = myVec(9*w/12, 1*w/5);
         myVec pt2 = myVec(9*w/13, 4*w/5);
         myVec vt;
         vt = pt2 - pt1;
+
+        // test trajectoire
+        vector<myVec> traj;
+        traj.push_back(pt1);
+        traj.push_back(pt2);
+        traj.push_back(vt);
+        trajectoire t1 = trajectoire(b, traj);
+        t1.Afficher(image);
 
         vector<myVec> pCercles;
         pCercles.push_back(myVec(w/5,w/3));
@@ -230,31 +240,6 @@ int main(int argc, char **argv){
 
 }
 
-void MyLine( Mat img, Point start, Point end )
-{
-    int thickness = 1;
-    int lineType = 8;
-    line( img,
-    start,
-    end,
-    Scalar( 0, 255, 0 ),
-    thickness,
-    lineType );
-}
 
-void MyEllipse( Mat img, double angle )
-{
-    int thickness = 2;
-    int lineType = 8;
-    ellipse( img,
-    Point( w/2, w/2 ),
-    Size( w/4, w/16 ),
-    angle,
-    0,
-    360,
-    Scalar( 255, 0, 0 ),
-    thickness,
-    lineType );
-}
 
 

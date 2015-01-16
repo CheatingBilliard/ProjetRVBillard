@@ -26,7 +26,7 @@
 class cadre
 {
 
-    private:
+    protected:
 
         std::vector<myVec> Sommets;/*!< vecteur de sommets définissant le cadre*/
 

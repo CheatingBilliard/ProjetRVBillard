@@ -9,8 +9,12 @@
 *
 **/
 
-#include "utilitaires.h"
+#ifndef BOULE_H
+#define BOULE_H
+
+
 #include "cadre.h"
+#include "utilitaires.h"
 
 
 /*! \class boule
@@ -116,3 +120,6 @@ class boule
     double rayon;/*!< rayon de la boule*/
 
 };
+
+
+#endif //BOULE_H
