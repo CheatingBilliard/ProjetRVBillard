@@ -14,6 +14,7 @@
 #include "affichage.h"
 #include "myVec.h"
 #include "boule.h"
+#include "cadre.h"
 
 using namespace std;
 using namespace cv;
@@ -58,32 +59,19 @@ int main(int argc, char **argv){
         myVec p1 = p+v;
 
 //tracer un polygon
-        vector<Point> pv;
+        vector<myVec> pv;
         int k = 60;
-        pv.push_back(Point(k,k));
-        pv.push_back(Point(w-k,k));
-        pv.push_back(Point(w-k,w-k));
-        pv.push_back(Point(k,w-k));
+        pv.push_back(myVec(k,k));
+        pv.push_back(myVec(w-k,k));
+        pv.push_back(myVec(w-k,w-k));
+        pv.push_back(myVec(k,w-k));
+
+        cadre c = cadre(pv);
+        c.Afficher(image);
+
         boule b = boule(myVec(w/2,w/2), 30);
         b.Afficher(image);
 
-        for(int j=0; j<pv.size(); j++)
-        {   int l = j+1;
-            if (l == pv.size())
-            {l = 0;}
-            myVec inter;
-            myVec interVec;
-
-
-            bool bbool = b.GetIntersectionSegment(v, myVec(pv[j].x,pv[j].y) ,myVec(pv[l].x,pv[l].y), inter, interVec);
-            if(bbool)
-            {
-                inter.AfficherPoint(image);
-                interVec.AfficherVecteur(image, inter);
-                boule br = boule(inter,30);
-                br.Afficher(image);
-            }
-        }
 
         //test projete
         myVec pt1 = myVec(9*w/12, 1*w/5);
@@ -122,7 +110,7 @@ int main(int argc, char **argv){
                 myVec interVec;
 
 
-                bool bbool = b.GetIntersectionSegment(v, myVec(pv[j].x,pv[j].y) ,myVec(pv[l].x,pv[l].y), inter, interVec);
+                bool bbool = b.GetIntersectionSegment(v, pv[j] ,pv[l], inter, interVec);
                 if(bbool)
                 {
                     inter.AfficherPoint(image);
@@ -136,7 +124,7 @@ int main(int argc, char **argv){
         }
 
 
-        AfficherPolygon(image, pv, Scalar(70,70,70));
+
 
         //vt.AfficherVecteur(image, pt1);
 //        myVec inter;
