@@ -27,22 +27,21 @@ extern int maxRayon;
 
 
 /**
- * \fn void bouleDetection_callback(int, void*, Mat img)
+ * \fn void bouleDetection_callback(Mat *img, vector<boule> *boules)
  * \brief Fonction de détection des boules de billard
  *
- * \param Mat img en entrée
- * \return création d'une fenêtre à l'écran "Boule"
- *         où les boules sont détectées, retracées et où leur distance est affichée
+ * \param Mat img en entrée, vecteur de boules
+ * \return On affiche ajoute la position des boules sur l'image et on actualise le vecteur contenant les boules.
  */
 void bouleDetection_callback(cv::Mat *img, std::vector<boule> *_boules);
 
 
 /**
  * \fn void bouleDetection_createtrackbar()
- * \brief Fonction de création des trackbars de bouleDetection_callback()
+ * \brief Fonction de création des trackbars de bouleDetection()
  *
  * \param
- * \return création d'une trackbar sur la fenêtre "Boules" de bouleDetection_callback()
+ * \return création d'une trackbar sur la fenêtre "Boules" de bouleDetection()
  */
 void bouleDetection_createtrackbar();
 

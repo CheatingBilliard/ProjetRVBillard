@@ -20,9 +20,6 @@
 /**
  * \struct position
  * \brief structure décrivant la position dans l'espace
- *
- * position dans un repère (x,y,z) et orientation avec angles
- *
  */
 struct position{
     int x;
@@ -32,11 +29,6 @@ struct position{
 /**
  * \struct Boule
  * \brief structure décrivant une Boule
- *
- * contient la couleur de cette boule
- * contient son rayon réel mais aussi celui perçu par la caméra
- * contient la position de la boule
- *
  */
 struct Boule {
     double rayon_vu;
@@ -55,9 +47,6 @@ struct jeuBoules {
  * \struct Billard
  * \brief structure décrivant le billard
  * \todo affiner les paramètres présents
- *
- *
- *
  */
 struct Billard {
     // points vus à l'écran, on s'intéresse qu'à x et y

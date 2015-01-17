@@ -2,14 +2,15 @@
 *
 *   \file main.cpp
 *   \brief fonction principale du bloc calcul de trajectoire du projet "Tricher au billard Français" pour l'ECN - remise au propre et en utilisant la bibliothèque openCV à partir du projet BoiteAOutilBillard
-*   \author Valentin LIEVIN
+*   \author Valentin LIEVIN Quentin TRESONTANI
 *   \date 14 janvier 2015
 *
 Ce projet simule la trajectoire d'une boule de billard sur un plateau contenant d'autres boules
+La position des boules ainsi que le cadre du billard est détecté à l'aide d'une caméra.
 
 *   Mode d'emploi :
--un clic : changer la position du vecteur directeur (canne)
--dirriger le vecteur en bougeant la souris
+- un clic : changer la position du vecteur directeur (canne)
+- dirriger le vecteur en bougeant la souris
 - clic du milieu pour arrêter de commander la direction du vecteur
 *
 **/
@@ -57,6 +58,8 @@ int main(int argc, char **argv){
     //bool bcontinue = true; // booléen utilisé pour quitter la boucle principale
 
     VideoCapture cap(0); //capture the video from web cam
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, 1080);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, 1080);
 
     if ( !cap.isOpened() )  // if not success, exit program
     {
@@ -77,12 +80,13 @@ int main(int argc, char **argv){
     vector<boule> b; // vecteur contenant l'ensemble des boules
     jeu j;  // jeu : contient l'ensemble des boules(b)  et le cadre (c)
     trajectoire traj ; // trajectoire que l'on affiche
+    char nomAffichage[] = " Affichage du billard ";
 
     while(true)
     {
-        Mat imgOriginal;
+        Mat image;
 
-        bool bSuccess = cap.read(imgOriginal); // read a new frame from video
+        bool bSuccess = cap.read(image); // read a new frame from video
 
          if (!bSuccess) //if not success, break loop
         {
@@ -90,17 +94,14 @@ int main(int argc, char **argv){
              break;
         }
 
-        Mat image;
-        flip(imgOriginal,image,1);
-
+        //Mat image;
+        //flip(imgOriginal,image,1);
+         b.clear();
         /// Detection des boules et du billard
         bouleDetection_callback(&image, &b);
         bouleDetection_createtrackbar();
         billard = cadreDetection(&image, historiquedespositions);
 
-
-
-        char nomAffichage[] = " Affichage du billard ";
 
         // on crée une image vide -> à remplacer par l'image de la webcam
         //image =  Mat::zeros( w, w, CV_8UC3 );
@@ -183,7 +184,7 @@ int main(int argc, char **argv){
         if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
         {
             cout << "esc key is pressed by user" << endl;
-            //imgFlip.release();
+            image.release();
             //imgOriginal.release();
             break;
         }
@@ -196,54 +197,22 @@ int main(int argc, char **argv){
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // gérer la souris
 void onMouse( int event, int x, int y, int, void* )
 {
-    if  ( event == EVENT_LBUTTONDOWN )
-    {
-
+    if  ( event == EVENT_LBUTTONDOWN ){
         mouseVec.at(0) = myVec(x,y);
-
     }
-    else if  ( event == EVENT_RBUTTONDOWN )
-    {
-
+    else if  ( event == EVENT_RBUTTONDOWN ){
     }
-    else if  ( event == EVENT_MBUTTONDOWN )
-    {
+    else if  ( event == EVENT_MBUTTONDOWN ){
         if (afficher)
-        afficher = false;
+            afficher = false;
         else
-        afficher = true;
+            afficher = true;
     }
-    else if ( event == EVENT_MOUSEMOVE && afficher)
-    {
-
+    else if ( event == EVENT_MOUSEMOVE && afficher){
         mouseVec.at(1) = myVec(x,y);
     }
-
 }
 

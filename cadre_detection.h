@@ -22,10 +22,6 @@
 #include "structures.h"
 
 
-
-/// FONCTION PRINCIPALE
-
-
 /**
  * \fn Billard cadreDetection2_callback(cv::Mat img, std::vector<std::vector<cv::Point> > &historiqueDesPositions)
  * \brief Fonction de détection du cadre du billard
@@ -48,7 +44,7 @@ bool parametrageCadreDone(std::vector<std::vector<cv::Point> > historiqueDesPosi
 
 
 /**
- * \fn void repositionnement(std::vector<cv::Point> &contours, cv::Mat dst, bool aff)
+ * \fn void repositionnement(std::vector<cv::Point> &contours)
  * \brief Fonction de repositionnement des angles détectés
  *
  * \param listes de cv::Point en entrée
@@ -61,10 +57,7 @@ bool parametrageCadreDone(std::vector<std::vector<cv::Point> > historiqueDesPosi
  *  effectue sur l'image cv::Mat en entrée.
  *
  */
-void repositionnement(std::vector<cv::Point> &contours, cv::Mat dst);
-
-
-/// AUTRES
+void repositionnement(std::vector<cv::Point> &contours);
 
 
 /**
@@ -89,14 +82,12 @@ cv::Point milieuPoints(cv::Point point1, cv::Point point2);
 
 /**
  * \fn int perimetrePoints(std::vector<cv::Point> contours)
- * \brief Périmètre d'un contours
+ * \brief Périmètre d'un quadrilatère
  *
  * \param std::vector<cv::Point> contours
  * \return int perimetre
  */
 int perimetrePoints(std::vector<cv::Point> contours);
-
-
 
 
 #endif // CADRE_DETECTION_H

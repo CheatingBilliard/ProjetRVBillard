@@ -32,26 +32,18 @@ int maxRayon = 90;
 
 void bouleDetection_callback(Mat *img, vector<boule> *boules){
 
-    // Concersion du gris en image binaire
+    int fontFace = FONT_HERSHEY_SCRIPT_SIMPLEX;
+    double fontScale = 1;
+
+    /// Conversion de l'image en gris puis en binaire
     Mat imgG;
     cvtColor( *img, imgG, CV_BGR2GRAY );
     Mat imgB;
     Canny(imgG, imgB, 0, 50, 5 );
 
-    // Find contours
+    /// Detection des contours
     vector<vector<cv::Point> > contours;
     findContours(imgB, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-
-    // The array for storing the approximation curve
-    vector<Point> approx;
-
-    // We'll put the labels in this destination image
-    Mat *dst = img;
-
-    // écriture sur les images
-    int fontFace = FONT_HERSHEY_SCRIPT_SIMPLEX;
-    double fontScale = 1;
-
     GaussianBlur( imgG, imgG, Size(9, 9), sigmaX, sigmaY );
     vector<Vec3f> circles;
     HoughCircles(imgG, circles, CV_HOUGH_GRADIENT,2, imgG.rows/4, 200, 100 );
@@ -62,56 +54,22 @@ void bouleDetection_callback(Mat *img, vector<boule> *boules){
         int radius = cvRound(circles[i][2]);
         if (radius < maxRayon || radius < minRayon) { // enlever les grands cercles qui sont des erreurs en général
 
-            // draw the circle center
-            circle( *dst, center, 3, Scalar(0,255,0), -1, 8, 0 );
-
+            /// Enregistrement dans le vecteur contenant les boules
             boule boulecourrante(myVec(center.x, center.y), radius);
             boules->push_back(boulecourrante);
 
-            /*vector<double> boulecourante;
-            boulecourante.push_back((double)center.x);
-            boulecourante.push_back((double)center.y);
-            boulecourante.push_back((double)radius);
-
-            _boules->infos.push_back(boulecourante);
-
-            if (i==0){
-                _boules->rouge.centre = center;
-                _boules->rouge.rayon_vu = radius;
-
-            }
-            if (i==1){
-                _boules->bleu.centre = center;
-                _boules->bleu.rayon_vu = radius;
-            }
-            if (i==2){
-                _boules->jaune.centre = center;
-                _boules->jaune.rayon_vu = radius;
-            }*/
-
-
-            // draw the circle outline
-            circle( *dst, center, radius, Scalar(0,0,255), 1, 8, 0 );
-
-            // give further informations
+            /// Dessin de la boule à l'écran
+            circle( *img, center, 3, Scalar(0,255,0), -1, 8, 0 );
+            circle( *img, center, radius, Scalar(0,0,255), 1, 8, 0 );
             string s = int2string(radius);
-            putText(*dst, s, center, fontFace, fontScale, Scalar::all(0), 1,8);
-
+            putText(*img, s, center, fontFace, fontScale, Scalar::all(0), 1,8);
             string s1 = "Nombre cercles : "+ int2string(circles.size());
             Point _point(100,100);
-            putText(*dst,s1, _point, fontFace, fontScale, Scalar::all(0),1,0 );
-            /*
-            if (radius != 0) {
-                int distance = calculDistanceSimplifie(radius);
-                string s2 = "Distance : " +int2string(distance)+ "cm";
-                Point _point1; _point1.x =center.x; _point1.y = center.y-50;
-                putText(dst,s2, _point1, fontFace, fontScale, Scalar::all(255),1,0);
-            }
-            */
+            putText(*img,s1, _point, fontFace, fontScale, Scalar::all(0),1,0 );
         }
     }
     //namedWindow( "Boules", CV_WINDOW_AUTOSIZE );
-    //imshow("Boules", *dst);
+    //imshow("Boules", *img);
 }
 
 
