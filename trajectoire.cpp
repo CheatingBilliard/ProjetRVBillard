@@ -35,7 +35,7 @@ B = b;
 void trajectoire::Afficher(cv::Mat image){
     if (Sommets.size() == 0)
     {
-        cerr << " in trajectoire::afficher : vecteur Sommet vide"<< endl;
+       // cerr << " in trajectoire::afficher : vecteur Sommet vide"<< endl;
     }
     else
     {

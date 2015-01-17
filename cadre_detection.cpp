@@ -159,8 +159,8 @@ Billard cadreDetection(Mat *img, vector<vector<Point> > &historiqueDesPositions)
             continue;
 
     } // end of for() loop
-    namedWindow( "Billard", CV_WINDOW_AUTOSIZE );
-    imshow("Billard", *dst);
+    //namedWindow( "Billard", CV_WINDOW_AUTOSIZE );
+    //imshow("Billard", *dst);
 
     return _billard;
 }

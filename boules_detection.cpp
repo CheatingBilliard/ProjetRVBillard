@@ -19,6 +19,8 @@
 #include "conversion_format.h"
 #include "cadre_detection.h"
 #include "boules_detection.h"
+#include "myVec.h"
+#include "boule.h"
 
 using namespace cv;
 using namespace std;
@@ -28,7 +30,7 @@ int sigmaY = 2;
 int minRayon = 30;
 int maxRayon = 90;
 
-void bouleDetection_callback(Mat *img, jeuBoules *_boules){
+void bouleDetection_callback(Mat *img, vector<boule> *boules){
 
     // Concersion du gris en image binaire
     Mat imgG;
@@ -63,6 +65,15 @@ void bouleDetection_callback(Mat *img, jeuBoules *_boules){
             // draw the circle center
             circle( *dst, center, 3, Scalar(0,255,0), -1, 8, 0 );
 
+            boule boulecourrante(myVec(center.x, center.y), radius);
+            boules->push_back(boulecourrante);
+
+            /*vector<double> boulecourante;
+            boulecourante.push_back((double)center.x);
+            boulecourante.push_back((double)center.y);
+            boulecourante.push_back((double)radius);
+
+            _boules->infos.push_back(boulecourante);
 
             if (i==0){
                 _boules->rouge.centre = center;
@@ -76,7 +87,7 @@ void bouleDetection_callback(Mat *img, jeuBoules *_boules){
             if (i==2){
                 _boules->jaune.centre = center;
                 _boules->jaune.rayon_vu = radius;
-            }
+            }*/
 
 
             // draw the circle outline
@@ -99,17 +110,17 @@ void bouleDetection_callback(Mat *img, jeuBoules *_boules){
             */
         }
     }
-    namedWindow( "Boules", CV_WINDOW_AUTOSIZE );
-    imshow("Boules", *dst);
+    //namedWindow( "Boules", CV_WINDOW_AUTOSIZE );
+    //imshow("Boules", *dst);
 }
 
 
 void bouleDetection_createtrackbar(){
 
     //Create trackbars in "Formes" window
-    createTrackbar("Sigma X", "Boules", &sigmaX, 10);
-    createTrackbar("Sigma Y", "Boules", &sigmaY, 10);
-    createTrackbar("Rayon min", "Boules", &minRayon, 150);
-    createTrackbar("Rayon max", "Boules", &maxRayon, 150);
+    //createTrackbar("Sigma X", "Boules", &sigmaX, 10);
+    //createTrackbar("Sigma Y", "Boules", &sigmaY, 10);
+    //createTrackbar("Rayon min", " Affichage du billard ", &minRayon, 150);
+    //createTrackbar("Rayon max", " Affichage du billard ", &maxRayon, 150);
 }
 

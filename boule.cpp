@@ -217,7 +217,7 @@ bool boule::GetIntersectionCadreBoules(myVec v, cadre c, std::vector<boule> VecB
 
 
                 dir = GetIntersectionBoule(v, VecBoules.at(i), sol , solVec);
-                cout << " dir  : " <<dir << endl;
+                //cout << " dir  : " <<dir << endl;
                 if (dir) // sil il ya intersection, on va voir i cette boulle est plus proche de la boule lancée
                 {
                     double d = (centre - sol ).GetNorme();
@@ -228,7 +228,7 @@ bool boule::GetIntersectionCadreBoules(myVec v, cadre c, std::vector<boule> VecB
                         tmp = d;
                     }
                 }
-                cout << " result (Boule)  : "<<result<<endl;
+                //cout << " result (Boule)  : "<<result<<endl;
 
         }
         if (result == false)

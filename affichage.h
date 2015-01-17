@@ -23,10 +23,10 @@
 #include<opencv.hpp>
 
 
-#define w 900/// défini la taille de l'affichage
+//#define w 900/// défini la taille de l'affichage
 #define M_ACTIVATION 200 /// féinition de la distance à partir de laquelle une boule est selectionnée
 #define M_TAILLE_POINT 3 /// définition de la taille d'un point
-#define M_THICKNESS 1 /// définition de l'épaisseur d'une ligne tracée
+#define M_THICKNESS 3 /// définition de l'épaisseur d'une ligne tracée
 #define M_LONG_VECTOR 40 /// définition de la longueur d'affichage d'un vecteur en pixel pour un vecteur normalisé
 # define M_PIl          3.141592653589793238462643383279502884L /* pi */
 

@@ -48,6 +48,7 @@ struct jeuBoules {
     Boule rouge;
     Boule jaune;
     Boule bleu;
+    std::vector<std::vector<double> > infos;
 };
 
 /**

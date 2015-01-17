@@ -25,7 +25,7 @@
 
 class boule
 {
-    public:
+public:
     /*!
      *  \brief Constructeur
      *  Constructeur de la classe boule
@@ -123,7 +123,7 @@ class boule
 
 
 
-    private:
+private:
 
     myVec centre;/*!< centre de la boule*/
     double rayon;/*!< rayon de la boule*/

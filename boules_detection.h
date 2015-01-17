@@ -18,6 +18,7 @@
 
 #include "conversion_format.h"
 #include "structures.h"
+#include "boule.h"
 
 extern int sigmaX;
 extern int sigmaY;
@@ -33,7 +34,7 @@ extern int maxRayon;
  * \return création d'une fenêtre à l'écran "Boule"
  *         où les boules sont détectées, retracées et où leur distance est affichée
  */
-void bouleDetection_callback(cv::Mat *img, jeuBoules *_boules);
+void bouleDetection_callback(cv::Mat *img, std::vector<boule> *_boules);
 
 
 /**

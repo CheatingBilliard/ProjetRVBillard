@@ -42,7 +42,7 @@ int jeu::GetSelected(myVec v, myVec vor)
                 d = distancePointSurDroite(v, vor, b.at(i).GetCentre());
                 if( d > 0 )
                 {
-                    cout << "in jeu::GetSelected : d | tmp  : " << d << " | " <<tmp <<endl<<endl;
+                    //cout << "in jeu::GetSelected : d | tmp  : " << d << " | " <<tmp <<endl<<endl;
                     if (d<tmp)
                     {
                         tmp = d;
@@ -112,7 +112,7 @@ void jeu::Afficher(cv::Mat image)
                 }
                 else
                 {
-                cerr<< " in jeu::GetTrajectoire : bool ok is false "<<endl<<endl<<endl;
+                    //cerr<< " in jeu::GetTrajectoire : bool ok is false "<<endl<<endl<<endl;
                 }
 
 

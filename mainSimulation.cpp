@@ -14,8 +14,7 @@ Ce projet simule la trajectoire d'une boule de billard sur un plateau contenant 
 *
 **/
 
-#include <string>
-#include <vector>
+
 #include "utilitaires.h"
 #include "affichage.h"
 #include "myVec.h"
@@ -23,10 +22,6 @@ Ce projet simule la trajectoire d'une boule de billard sur un plateau contenant 
 #include "cadre.h"
 #include "trajectoire.h"
 #include "jeu.h"
-#include "structures.h"
-#include "cadre_detection.h"
-#include "boules_detection.h"
-
 
 
 using namespace std;
@@ -46,23 +41,9 @@ bool afficher; // vrai lorsqu'il y a une click
 vector<myVec> mouseVec; //sert à récupérer les commandes souris
 int w = 900;
 
-Billard billard;
-vector<vector<Point> > historiquedespositions;
-jeuBoules _boules;
-
-
-
 int main(int argc, char **argv){
 
-    //bool bcontinue = true; // booléen utilisé pour quitter la boucle principale
-
-    VideoCapture cap(0); //capture the video from web cam
-
-    if ( !cap.isOpened() )  // if not success, exit program
-    {
-         cout << "Cannot open the web cam" << endl;
-         return -1;
-    }
+    bool bcontinue = true; // booléen utilisé pour quitter la boucle principale
 
     //initialisation de du vecteur mouseVec (gestion de la souris)
     mouseVec.clear();
@@ -78,83 +59,52 @@ int main(int argc, char **argv){
     jeu j;  // jeu : contient l'ensemble des boules(b)  et le cadre (c)
     trajectoire traj ; // trajectoire que l'on affiche
 
-    while(true)
+    while(bcontinue)
     {
-        Mat imgOriginal;
-
-        bool bSuccess = cap.read(imgOriginal); // read a new frame from video
-
-         if (!bSuccess) //if not success, break loop
-        {
-             cout << "Cannot read a frame from video stream" << endl;
-             break;
-        }
-
-        Mat image;
-        flip(imgOriginal,image,1);
-
-        /// Detection des boules et du billard
-        bouleDetection_callback(&image, &b);
-        bouleDetection_createtrackbar();
-        billard = cadreDetection(&image, historiquedespositions);
-
-
 
         char nomAffichage[] = " Affichage du billard ";
 
-        // on crée une image vide -> à remplacer par l'image de la webcam
-        //image =  Mat::zeros( w, w, CV_8UC3 );
-        if (parametrageCadreDone(historiquedespositions)){
+          // on crée une image vide -> à remplacer par l'image de la webcam
+          image =  Mat::zeros( w, w, CV_8UC3 );
 
-            cout << "On est entrés dans la boucle" << endl;
-
-            ///écriture des structures de données pour la partie simulation et affichage
-            //creration du vecteur regroupant les points du cadre
-
+///écriture des structures de données pour la partie simulation et affichage
+    //creration du vecteur regroupant les points du cadre
             //vector<myVec> pv;
             pv.clear();
-            pv.push_back(myVec(billard.psommet0.x,billard.psommet0.y));
-            pv.push_back(myVec(billard.psommet1.x,billard.psommet1.y));
-            pv.push_back(myVec(billard.psommet2.x,billard.psommet2.y));
-            pv.push_back(myVec(billard.psommet3.x,billard.psommet3.y));
-
-
-            //création du cadre
+            int k = 60;
+            pv.push_back(myVec(k,k));
+            pv.push_back(myVec(w-k,k));
+            pv.push_back(myVec(w-k,w-k));
+            pv.push_back(myVec(k,w-k));
+    //création du cadre
             //cadre c;
             c = cadre(pv);
-
-            // VECTOR : _boules.infos
-            /*
-                //creation des centres des boules
-                vector<myVec> pCercles;
-                pCercles.clear();
-                pCercles.push_back(myVec(5*w/6,5*w/6));
-                pCercles.push_back(myVec(2*w/3,2*w/3));
-                pCercles.push_back(myVec(w/5,w/3));
-
-                //création d'un vecteur de boule
-                //vector<boule> b;
-                b.clear();
-                for ( int i = 0; i<pCercles.size(); i ++)
-                {
-                    boule tmp = boule(pCercles.at(i), 30);
-                    b.push_back(tmp);
-                }
-            */
-
-            //creation du jeu
+    //creation des centres des boules
+            vector<myVec> pCercles;
+            pCercles.clear();
+            pCercles.push_back(myVec(5*w/6,5*w/6));
+            pCercles.push_back(myVec(2*w/3,2*w/3));
+            pCercles.push_back(myVec(w/5,w/3));
+    //création d'un vecteur de boule
+            //vector<boule> b;
+            b.clear();
+            for ( int i = 0; i<pCercles.size(); i ++)
+            {
+                boule tmp = boule(pCercles.at(i), 30);
+                b.push_back(tmp);
+            }
+    //creation du jeu
             //jeu j;
-            cout << " Taille " << b.size() << endl;
             j = jeu(c,b);
             j.GetSelected(vSouris,vSourisPos);
             j.Afficher(image);
 
-            //création d'une trajectoire
+    //création d'une trajectoire
             //trajectoire traj ;
             j.GetTrajectoire(vSouris, vSourisPos , 5 , traj);
             traj.Afficher(image);
 
-        }
+
 
 
 
@@ -172,21 +122,21 @@ int main(int argc, char **argv){
 
             //écriture et affichage de la nouvelle image
 
-            namedWindow(nomAffichage, CV_WINDOW_AUTOSIZE);
+            namedWindow(nomAffichage);
             setMouseCallback( nomAffichage, onMouse, 0 );
             imshow( nomAffichage, image);
-            //moveWindow( nomAffichage, 0, 0 );
-            //system("clear");
+            moveWindow( nomAffichage, 0, 0 );
+            system("clear");
 
-            //int key = cvWaitKey(20); // capture des événements claviers - (20) -> on attend 20ms
+            int key = cvWaitKey(20); // capture des événements claviers - (20) -> on attend 20ms
 
-        if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
-        {
-            cout << "esc key is pressed by user" << endl;
-            //imgFlip.release();
-            //imgOriginal.release();
-            break;
-        }
+            //gestion des événements clavier
+            switch(key)
+            {
+                    case(27):
+                    bcontinue = false;
+                    break;
+            }
 
     }
 
@@ -195,29 +145,6 @@ int main(int argc, char **argv){
   return RUN_ALL_TESTS();
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // gérer la souris
 void onMouse( int event, int x, int y, int, void* )
@@ -246,4 +173,5 @@ void onMouse( int event, int x, int y, int, void* )
     }
 
 }
+
 
