@@ -40,9 +40,8 @@ int jeu::GetSelected(myVec v, myVec vor)
             if( (vor - b.at(i).GetCentre()).GetNorme() < M_ACTIVATION ) // si le sommet de la canne est à bonne distance
             {
                 d = distancePointSurDroite(v, vor, b.at(i).GetCentre());
-                if( d > 0 )
+                if( d > 0 ) // si le point est dans le sens de parcours du vecteur (voir distancePointSurDroite
                 {
-                    //cout << "in jeu::GetSelected : d | tmp  : " << d << " | " <<tmp <<endl<<endl;
                     if (d<tmp)
                     {
                         tmp = d;
@@ -101,23 +100,19 @@ void jeu::Afficher(cv::Mat image)
 
         for( int k = 0; k<nb ; k++)
         {
-            //for(int i = 0; i<CopieBoules.size(); i++)
-           // {
-                if (ok = true)
+                //
+                if (ok = true) //on vérifie qu'il y a bien eu une intersection
                 {
-                     ok = bCible.GetIntersectionCadreBoules(tmpinterVec, c, CopieBoules, sol, solVec );
+                ok = bCible.GetIntersectionCadreBoules(tmpinterVec, c, CopieBoules, sol, solVec );
                     result.push_back( sol);
                     tmpinterVec = solVec;
                     bCible = boule(sol, bCible.GetRayon());
                 }
-                else
-                {
-                    //cerr<< " in jeu::GetTrajectoire : bool ok is false "<<endl<<endl<<endl;
-                }
 
 
 
-            //}
+
+
         }
         traj = trajectoire(bCible, result);
 

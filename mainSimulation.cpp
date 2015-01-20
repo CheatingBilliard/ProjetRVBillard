@@ -87,6 +87,7 @@ int main(int argc, char **argv){
             pCercles.push_back(myVec(5*w/6,5*w/6));
             pCercles.push_back(myVec(2*w/3,2*w/3));
             pCercles.push_back(myVec(w/5,w/3));
+            pCercles.push_back(myVec(w/5,4*w/5));
     //création d'un vecteur de boule
             //vector<boule> b;
             b.clear();

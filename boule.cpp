@@ -215,11 +215,13 @@ bool boule::GetIntersectionCadreBoules(myVec v, cadre c, std::vector<boule> VecB
         for(int i = 0;i<VecBoules.size(); i++ )
         {
 
+                myVec t;
+                myVec tt;
+                dir = GetIntersectionBoule(v, VecBoules.at(i), t , tt); // on ne souhaite pas changer sol et solVec ici (utilisation de t et tt) (cause d'un bug précédemment
 
-                dir = GetIntersectionBoule(v, VecBoules.at(i), sol , solVec);
-                //cout << " dir  : " <<dir << endl;
                 if (dir) // sil il ya intersection, on va voir i cette boulle est plus proche de la boule lancée
                 {
+                    dir = GetIntersectionBoule(v, VecBoules.at(i), sol , solVec);
                     double d = (centre - sol ).GetNorme();
 
                     if ( d<tmp ) // on sélectionne la boule la plus proche
@@ -228,10 +230,10 @@ bool boule::GetIntersectionCadreBoules(myVec v, cadre c, std::vector<boule> VecB
                         tmp = d;
                     }
                 }
-                //cout << " result (Boule)  : "<<result<<endl;
+
 
         }
-        if (result == false)
+        if (result == false) // s'il n'y a pas d'intersection avec une boule, on calcule l'intersection avec le cadre
             {
                 result = GetIntersectionCadre(v, c, sol ,solVec);
             }
