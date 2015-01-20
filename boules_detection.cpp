@@ -25,10 +25,14 @@
 using namespace cv;
 using namespace std;
 
-int sigmaX = 2;
-int sigmaY = 2;
-int minRayon = 30;
-int maxRayon = 90;
+int sigmaX = 3;
+int sigmaY = 3;
+int minRayon = 20;
+int maxRayon = 100;
+int canny_1 = 2;
+int canny_2 = 200;
+int canny_3 = 5;
+int size_blur = 9;
 
 void bouleDetection_callback(Mat *img, vector<boule> *boules){
 
@@ -39,12 +43,13 @@ void bouleDetection_callback(Mat *img, vector<boule> *boules){
     Mat imgG;
     cvtColor( *img, imgG, CV_BGR2GRAY );
     Mat imgB;
-    Canny(imgG, imgB, 0, 50, 5 );
+    GaussianBlur( imgG, imgG, Size(size_blur, size_blur), sigmaX, sigmaY );
+    Canny(imgG, imgB, canny_1, canny_2, canny_3);
 
     /// Detection des contours
     vector<vector<cv::Point> > contours;
     findContours(imgB, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-    GaussianBlur( imgG, imgG, Size(9, 9), sigmaX, sigmaY );
+    //GaussianBlur( imgG, imgG, Size(9, 9), sigmaX, sigmaY );
     vector<Vec3f> circles;
     HoughCircles(imgG, circles, CV_HOUGH_GRADIENT,2, imgG.rows/4, 200, 100 );
 
@@ -61,24 +66,26 @@ void bouleDetection_callback(Mat *img, vector<boule> *boules){
             /// Dessin de la boule à l'écran
             circle( *img, center, 3, Scalar(0,255,0), -1, 8, 0 );
             circle( *img, center, radius, Scalar(0,0,255), 1, 8, 0 );
-            string s = int2string(radius);
-            putText(*img, s, center, fontFace, fontScale, Scalar::all(0), 1,8);
-            string s1 = "Nombre cercles : "+ int2string(circles.size());
-            Point _point(100,100);
-            putText(*img,s1, _point, fontFace, fontScale, Scalar::all(0),1,0 );
+            //string s = int2string(radius);
+            //putText(*img, s, center, fontFace, fontScale, Scalar::all(0), 1,8);
+            //string s1 = "Nombre cercles : "+ int2string(circles.size());
+            //Point _point(100,100);
+            //putText(*img,s1, _point, fontFace, fontScale, Scalar::all(0),1,0 );
         }
     }
-    //namedWindow( "Boules", CV_WINDOW_AUTOSIZE );
-    //imshow("Boules", *img);
+    namedWindow( "Boules", CV_WINDOW_AUTOSIZE );
+    imshow("Boules", imgB);
 }
 
 
 void bouleDetection_createtrackbar(){
 
     //Create trackbars in "Formes" window
-    //createTrackbar("Sigma X", "Boules", &sigmaX, 10);
-    //createTrackbar("Sigma Y", "Boules", &sigmaY, 10);
-    //createTrackbar("Rayon min", " Affichage du billard ", &minRayon, 150);
-    //createTrackbar("Rayon max", " Affichage du billard ", &maxRayon, 150);
+    createTrackbar("Sigma X", "Boules", &sigmaX, 20);
+    createTrackbar("Sigma Y", "Boules", &sigmaY, 20);
+    createTrackbar("Rayon min", "Booules", &minRayon, 150);
+    createTrackbar("Rayon max", "Boules", &maxRayon, 150);
+    createTrackbar("Canny_1", "Boules", &canny_1, 10);
+    createTrackbar("Canny_2", "Boules", &canny_2, 300);
 }
 

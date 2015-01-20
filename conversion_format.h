@@ -5,8 +5,7 @@
  * \version 0.1
  * \date 13 janvier 2015
  *
- * Partie dédiée aux différentes fonctions de conversions
- * des types de données utilisés par le reste des programmes
+ * Partie dédiée aux différentes fonctions de conversions des types de données utilisés par le reste des programmes
  *
  */
 

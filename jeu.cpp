@@ -98,11 +98,11 @@ void jeu::Afficher(cv::Mat image)
         myVec tmpinterVec = v;
         bool ok = true;
         result.push_back( tmpinter);
-        int nbbis = nb/2;
-        for( int k = 0; k<nbbis ; k++)
+
+        for( int k = 0; k<nb ; k++)
         {
-            for(int i = 0; i<CopieBoules.size(); i++)
-            {
+            //for(int i = 0; i<CopieBoules.size(); i++)
+           // {
                 if (ok = true)
                 {
                      ok = bCible.GetIntersectionCadreBoules(tmpinterVec, c, CopieBoules, sol, solVec );
@@ -117,7 +117,7 @@ void jeu::Afficher(cv::Mat image)
 
 
 
-            }
+            //}
         }
         traj = trajectoire(bCible, result);
 

@@ -24,6 +24,9 @@ extern int sigmaX;
 extern int sigmaY;
 extern int minRayon;
 extern int maxRayon;
+extern int canny_1;
+extern int canny_2;
+extern int canny_3;
 
 
 /**

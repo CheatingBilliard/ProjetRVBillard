@@ -5,12 +5,9 @@
  * \version 0.1
  * \date 13 janvier 2015
  *
- * Partie dédiée à la reconnaissance du billard
- * lors de l'initialisation du projet
+ * Partie dédiée à la reconnaissance du billard lors de l'initialisation du projet
  *
  */
-
-///\todo afficher le cadre une fois détecter en rouge tout le temps
 
 #include <vector>
 #include <math.h>
@@ -25,13 +22,16 @@
 using namespace cv;
 using namespace std;
 
-
-int fontFace = FONT_HERSHEY_SCRIPT_SIMPLEX;
-double fontScale = 1;
 int k = 0;
 
+int sigma_X = 3;
+int sigma_Y = 3;
+int canny_1bis = 2;
+int canny_2bis = 50;
+int canny_3bis = 5;
 
-Billard cadreDetection(Mat *img, vector<vector<Point> > &historiqueDesPositions){ // voir si on repasse pas ça en void et on met le billard en entrée aussi
+
+Billard cadreDetection(Mat *img, vector<vector<Point> > &historiqueDesPositions){
 
     vector<Point> cadre;
     Billard _billard;
@@ -42,7 +42,8 @@ Billard cadreDetection(Mat *img, vector<vector<Point> > &historiqueDesPositions)
     Mat imgG;
     cvtColor( *img, imgG, CV_BGR2GRAY );
     Mat imgB;
-    Canny(imgG, imgB, 0, 50, 5 );
+    //GaussianBlur( imgG, imgG, Size(9, 9), sigma_X, sigma_Y );
+    Canny(imgG, imgB, canny_1bis, canny_2bis, 5 );
 
     /// Détection des contours
     vector<vector<cv::Point> > contours;
@@ -153,18 +154,32 @@ Billard cadreDetection(Mat *img, vector<vector<Point> > &historiqueDesPositions)
             continue;
 
     } // end of for() loop
-    //namedWindow( "Billard", CV_WINDOW_AUTOSIZE );
-    //imshow("Billard", *img);
+    namedWindow( "Billard", CV_WINDOW_AUTOSIZE );
+    imshow("Billard", imgB);
 
     return _billard;
 }
 
+
+
+void cadreDetection_createtrackbar(){
+
+    //Create trackbars in "Formes" window
+    //createTrackbar("Sigma X", "Billard", &sigma_X, 20);
+    //createTrackbar("Sigma Y", "Billard", &sigma_Y, 20);
+    createTrackbar("Canny_1", "Billard", &canny_1bis, 10);
+    createTrackbar("Canny_2", "Billard", &canny_2bis, 300);
+}
+
+
+
 bool parametrageCadreDone(vector<vector<Point> > hDP){
-    // déterminer quand on a paramétré le cadre e
+    // déterminer quand on a paramétré le cadre
     bool param;
     if ((hDP.empty())||(hDP.size()<5)){
         param = false;
     }
+    // on valide la cadre quand on obtient 3 fois la même position des angles dans l'historique des positions
     else if ((hDP.back() == hDP[hDP.size()-1])&&(hDP.back() == hDP[hDP.size()-2])&&(hDP.back() == hDP[hDP.size()-3])){
             param = true;
             if (k==0)

@@ -29,7 +29,6 @@ La position des boules ainsi que le cadre du billard est détecté à l'aide d'u
 #include "boules_detection.h"
 
 
-
 using namespace std;
 using namespace cv;
 
@@ -101,7 +100,7 @@ int main(int argc, char **argv){
         bouleDetection_callback(&image, &b);
         bouleDetection_createtrackbar();
         billard = cadreDetection(&image, historiquedespositions);
-
+        cadreDetection_createtrackbar();
 
         // on crée une image vide -> à remplacer par l'image de la webcam
         //image =  Mat::zeros( w, w, CV_8UC3 );
@@ -118,7 +117,6 @@ int main(int argc, char **argv){
             pv.push_back(myVec(billard.psommet1.x,billard.psommet1.y));
             pv.push_back(myVec(billard.psommet2.x,billard.psommet2.y));
             pv.push_back(myVec(billard.psommet3.x,billard.psommet3.y));
-
 
             //création du cadre
             //cadre c;
@@ -157,29 +155,27 @@ int main(int argc, char **argv){
 
         }
 
+        /// écriture du vecteur souris, affichage et gestion des interruptions clavier
 
+        //Construire et Afficher le vecteur souris
+        if(mouseVec.size()==2)
+        {
+            vSouris = mouseVec.at(1) - mouseVec.at(0);
+            vSourisPos = mouseVec.at(0);
+            vSouris.Normalise();
+        }
 
-/// écriture du vecteur souris, affichage et gestion des interruptions clavier
+        vSouris.AfficherVecteur(image, vSourisPos);
 
-            //Construire et Afficher le vecteur souris
-            if(mouseVec.size()==2)
-            {
-                vSouris = mouseVec.at(1) - mouseVec.at(0);
-                vSourisPos = mouseVec.at(0);
-                vSouris.Normalise();
-            }
+        //écriture et affichage de la nouvelle image
 
-            vSouris.AfficherVecteur(image, vSourisPos);
+        namedWindow(nomAffichage, CV_WINDOW_AUTOSIZE);
+        setMouseCallback( nomAffichage, onMouse, 0 );
+        imshow( nomAffichage, image);
+        //moveWindow( nomAffichage, 0, 0 );
+        //system("clear");
 
-            //écriture et affichage de la nouvelle image
-
-            namedWindow(nomAffichage, CV_WINDOW_AUTOSIZE);
-            setMouseCallback( nomAffichage, onMouse, 0 );
-            imshow( nomAffichage, image);
-            //moveWindow( nomAffichage, 0, 0 );
-            //system("clear");
-
-            //int key = cvWaitKey(20); // capture des événements claviers - (20) -> on attend 20ms
+        //int key = cvWaitKey(20); // capture des événements claviers - (20) -> on attend 20ms
 
         if (waitKey(30) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
         {
@@ -190,7 +186,6 @@ int main(int argc, char **argv){
         }
 
     }
-
 
 ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

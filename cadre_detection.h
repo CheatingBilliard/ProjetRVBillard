@@ -21,6 +21,11 @@
 
 #include "structures.h"
 
+extern int sigma_X;
+extern int sigma_Y;
+extern int canny_1bis;
+extern int canny_2bis;
+
 
 /**
  * \fn Billard cadreDetection2_callback(cv::Mat img, std::vector<std::vector<cv::Point> > &historiqueDesPositions)
@@ -32,6 +37,7 @@
  */
 Billard cadreDetection(cv::Mat *img, std::vector<std::vector<cv::Point> > &historiqueDesPositions);
 
+void cadreDetection_createtrackbar();
 
 /**
  * \fn bool parametrageCadreDone(std::vector<std::vector<cv::Point> > historiqueDesPositions)
