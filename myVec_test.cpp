@@ -118,6 +118,8 @@ TEST(crossProduct , zero)
 
 }
 
+///TEST de myVec vecteurOrtho(myVec v1)
+
 TEST(vecteurOrtho, orthogonal )
 {
     srand(time(NULL));

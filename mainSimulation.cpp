@@ -23,12 +23,12 @@ Ce projet simule la trajectoire d'une boule de billard sur un plateau contenant 
 #include "trajectoire.h"
 #include "jeu.h"
 
-
 using namespace std;
 using namespace cv;
 
 cv::Mat image;
 
+int w = 600;
 /**
  * \fn void onMouse( int event, int x, int y, int, void* )
  * \brief gestion de la souris
@@ -37,15 +37,15 @@ cv::Mat image;
 void onMouse( int event, int x, int y, int, void* );
 
 /** variables globales (utiles pour la gestion de la souris)**/
-bool afficher; // vrai lorsqu'il y a une click
+bool afficher; // vrai lorsqu'il y a une clic
 vector<myVec> mouseVec; //sert à récupérer les commandes souris
-int w = 900;
+
 
 int main(int argc, char **argv){
 
     bool bcontinue = true; // booléen utilisé pour quitter la boucle principale
 
-    //initialisation de du vecteur mouseVec (gestion de la souris)
+    //initialisation du vecteur mouseVec (gestion de la souris)
     mouseVec.clear();
     mouseVec.push_back(myVec(w/2, w/2) );
     mouseVec.push_back(myVec(w/4, w/4) );
@@ -53,6 +53,7 @@ int main(int argc, char **argv){
     myVec vSourisPos;
 
     /// Déclaration des structures de données utilisées pour la partie simulation et affichage
+
     vector<myVec> pv; // vecteur contenant les positions des coins du cadre
     cadre c;    // cadre : 4 bandes
     vector<boule> b; // vecteur contenant l'ensemble des boules
@@ -65,9 +66,10 @@ int main(int argc, char **argv){
         char nomAffichage[] = " Affichage du billard ";
 
           // on crée une image vide -> à remplacer par l'image de la webcam
-          image =  Mat::zeros( w, w, CV_8UC3 );
+        image =  Mat::zeros( w, w, CV_8UC3 );
 
 ///écriture des structures de données pour la partie simulation et affichage
+
     //creration du vecteur regroupant les points du cadre
             //vector<myVec> pv;
             pv.clear();
@@ -173,5 +175,3 @@ void onMouse( int event, int x, int y, int, void* )
     }
 
 }
-
-

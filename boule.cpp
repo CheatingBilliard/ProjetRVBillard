@@ -167,7 +167,7 @@ bool boule::GetIntersectionBoule(myVec v, boule B, myVec &sol , myVec & solVec)
 
     bool result = GetIntersectionBoule(v,B,sol);
 
-    myVec VecCentres = ( B.GetCentre() - sol);
+    myVec VecCentres = ( B.GetCentre() - sol); // vecteur allant du centre de la boule visée à l'intersection des deux boules
     myVec VecCentresOrtho = vecteurOrtho(VecCentres);
 
     //Déterminer e sens du rebond en fonction de l'orientation des deux boules
