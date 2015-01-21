@@ -98,9 +98,9 @@ int main(int argc, char **argv){
          b.clear();
         /// Detection des boules et du billard
         bouleDetection_callback(&image, &b);
-        bouleDetection_createtrackbar();
+        //bouleDetection_createtrackbar();
         billard = cadreDetection(&image, historiquedespositions);
-        cadreDetection_createtrackbar();
+        //cadreDetection_createtrackbar();
 
         // on crée une image vide -> à remplacer par l'image de la webcam
         //image =  Mat::zeros( w, w, CV_8UC3 );
