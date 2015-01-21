@@ -154,8 +154,8 @@ Billard cadreDetection(Mat *img, vector<vector<Point> > &historiqueDesPositions)
             continue;
 
     } // end of for() loop
-    namedWindow( "Billard", CV_WINDOW_AUTOSIZE );
-    imshow("Billard", imgB);
+    //namedWindow( "Billard", CV_WINDOW_AUTOSIZE );
+    //imshow("Billard", imgB);
 
     return _billard;
 }
@@ -180,7 +180,8 @@ bool parametrageCadreDone(vector<vector<Point> > hDP){
         param = false;
     }
     // on valide la cadre quand on obtient 3 fois la même position des angles dans l'historique des positions
-    else if ((hDP.back() == hDP[hDP.size()-1])&&(hDP.back() == hDP[hDP.size()-2])&&(hDP.back() == hDP[hDP.size()-3])){
+    //else if ((hDP.back() == hDP[hDP.size()-1])&&(hDP.back() == hDP[hDP.size()-2])&&(hDP.back() == hDP[hDP.size()-3])){
+    else if ((hDP.back() == hDP[hDP.size()-1])){
             param = true;
             if (k==0)
                 cout << endl << "CONFIGURATION FAITE: BILLARD DETECTE" << endl;

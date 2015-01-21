@@ -29,10 +29,21 @@ int sigmaX = 3;
 int sigmaY = 3;
 int minRayon = 20;
 int maxRayon = 100;
-int canny_1 = 2;
-int canny_2 = 200;
+int canny_1 = 50;
+int canny_2 = 800;
 int canny_3 = 5;
 int size_blur = 9;
+
+void bouleDetection_createtrackbar(){
+
+    //Create trackbars in "Formes" window
+    createTrackbar("Sigma X", "Boules", &sigmaX, 20);
+    createTrackbar("Sigma Y", "Boules", &sigmaY, 20);
+    createTrackbar("Rayon min", "Booules", &minRayon, 150);
+    createTrackbar("Rayon max", "Boules", &maxRayon, 150);
+    createTrackbar("Canny_1", "Boules", &canny_1, 100);
+    createTrackbar("Canny_2", "Boules", &canny_2, 2000);
+}
 
 void bouleDetection_callback(Mat *img, vector<boule> *boules){
 
@@ -47,11 +58,11 @@ void bouleDetection_callback(Mat *img, vector<boule> *boules){
     Canny(imgG, imgB, canny_1, canny_2, canny_3);
 
     /// Detection des contours
-    vector<vector<cv::Point> > contours;
-    findContours(imgB, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+    //vector<vector<cv::Point> > contours;
+    //findContours(imgB, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
     //GaussianBlur( imgG, imgG, Size(9, 9), sigmaX, sigmaY );
     vector<Vec3f> circles;
-    HoughCircles(imgG, circles, CV_HOUGH_GRADIENT,2, imgG.rows/4, 200, 100 );
+    HoughCircles(imgB, circles, CV_HOUGH_GRADIENT,2, imgB.rows/4, 200, 100 );
 
     for( size_t i = 0; i < circles.size(); i++ )
     {
@@ -73,19 +84,10 @@ void bouleDetection_callback(Mat *img, vector<boule> *boules){
             //putText(*img,s1, _point, fontFace, fontScale, Scalar::all(0),1,0 );
         }
     }
-    namedWindow( "Boules", CV_WINDOW_AUTOSIZE );
-    imshow("Boules", imgB);
+    //namedWindow( "Boules", CV_WINDOW_AUTOSIZE );
+    //imshow("Boules", imgB);
 }
 
 
-void bouleDetection_createtrackbar(){
 
-    //Create trackbars in "Formes" window
-    createTrackbar("Sigma X", "Boules", &sigmaX, 20);
-    createTrackbar("Sigma Y", "Boules", &sigmaY, 20);
-    createTrackbar("Rayon min", "Booules", &minRayon, 150);
-    createTrackbar("Rayon max", "Boules", &maxRayon, 150);
-    createTrackbar("Canny_1", "Boules", &canny_1, 10);
-    createTrackbar("Canny_2", "Boules", &canny_2, 300);
-}
 
